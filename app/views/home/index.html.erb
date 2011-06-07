@@ -1,0 +1,18 @@
+<% if @is_login %>
+	<h1>Select the notebooks you want to scan</h1>
+	<p>
+	  You account contains the following notebooks:
+	</p>
+	<ul>    
+	<% @notebooks.each do |notebook| %>
+	      <li><a href="/show?guid=<%=notebook.guid %>" >name :<%= notebook.name %></a></li>
+	      <br>
+	<% end %>
+	</ul>
+	<a href="/show?guid=all">Scan all(May take a while depends on your notes)</a>
+	
+<% else %>	
+	<p>
+	  <a href="/authorize">Login to Evernote</a> to authorize this application to access your Evernote account. You will be directed to evernote.com to authorize access, then returned to this application after authorization is complete.
+	</p>
+<% end %>
