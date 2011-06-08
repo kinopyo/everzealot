@@ -5,8 +5,18 @@ gem 'rails', '3.1.0.rc1'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
-# gem 'sqlite3'
-gem 'pg'
+group :test, :development do
+	gem 'sqlite3'
+end
+
+# add thin server
+gem 'thin'
+
+#add the rubyracer for heroku
+group :production do 
+  gem 'pg'
+  gem 'therubyracer-heroku', '0.8.1.pre3'
+end
 
 # Asset template engines
 gem 'json'
