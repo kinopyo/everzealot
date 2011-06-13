@@ -27,7 +27,9 @@ class HomeController < ApplicationController
       erb :error
     else
       begin
-        shard_id = session[:access_token].params['edam_shard']
+        shard_id = session[:access_token].params['edam_shard']   
+        # to hold the last note guid
+        last_note_guid = ""
 
         # Construct the URL used to access the user's account
         noteStoreUrl = NOTESTORE_URL_BASE + shard_id
@@ -48,7 +50,10 @@ class HomeController < ApplicationController
               unless note.resources.nil?
                 note.resources.each do |resource|
                   if is_image(resource.mime)
-                    @notes << note 
+                    # if one note has more than one image         
+                    # use the local variable to check
+                    @notes << note if last_note_guid != note.guid
+                    last_note_guid = note.guid
                   end
                 end
               end
@@ -59,10 +64,13 @@ class HomeController < ApplicationController
           noteList = noteStore.findNotes(session[:access_token].token, noteFilter, 0, Evernote::EDAM::Limits::EDAM_USER_NOTES_MAX)
           @notes = Array.new
           noteList.notes.each do |note|
-            unless note.resources.nil?
+            unless note.resources.nil?            
               note.resources.each do |resource|
-                if is_image(resource.mime)
-                  @notes << note 
+                if is_image(resource.mime)  
+                  # if one note has more than one image         
+                  # use the local variable to check
+                  @notes << note if last_note_guid != note.guid 
+                  last_note_guid = note.guid
                 end
               end
             end
