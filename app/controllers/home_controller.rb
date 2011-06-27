@@ -116,13 +116,74 @@ class HomeController < ApplicationController
     end
   end
   
+  #actions
+  
+  def mail
+    UserMailer.send_image_mail("kinopyo@gmail.com").deliver
+    render :text => "mail sent"
+  end
+  
+  def download
+    @download_file = Array.new
+    params[:images].each do |image|
+      # image/png, image/jpeg  extract the part after slash as file ext
+      param = image.match(/guid=(.*)&mime=image\/(.*)/)
+      guid = param[1]
+      ext = param[2]
+
+      download_to_server "http://sandbox.evernote.com/shard/#{params[:shard]}/res/#{guid}", "#{guid}", "#{ext}"
+    end
+
+    image_directory = "#{Rails.root}/tmp/images/#{session[:access_token].params['edam_userId']}"
+    zip_file_name = "evernote_images_#{session[:access_token].params['edam_userId']}.zip"
+    zip_image image_directory + "/" + zip_file_name
+    # make this zip file download
+    send_file image_directory + "/" + zip_file_name, :type => "application/zip"
+    
+    @download_file = nil
+    # redirect_to :back
+
+  end
+  
   def reset
     session[:access_token] = nil
+    redirect_to :root
   end
   
   private
-  def login?
-    !session[:access_token].nil?
+  
+  # download images to server
+  def download_to_server full_url, path, ext
+    require 'open-uri'
+    image_directory = "#{Rails.root}/tmp/images/#{session[:access_token].params['edam_userId']}"
+    unless File.directory? image_directory 
+      Dir::mkdir( image_directory ) # 第二パラメータ省略時のパーミッションは0777
+    end
+    file_name = image_directory + "/" + path + '.' + ext
+
+    @download_file << file_name
+    unless File.exists?(file_name)
+      File.open(file_name, 'wb') do |output|
+        # Download image
+        # TODO: handle if session access token is nil
+        open(full_url + "?auth=#{session[:access_token].token}") do |input|
+          output << input.read
+        end
+      end
+    end
+  end
+  
+  def zip_image filename
+    # https://bitbucket.org/winebarrel/zip-ruby/wiki/Home
+    
+    File.delete(filename) if File.exists?(filename)
+
+    Zip::Archive.open(filename, Zip::CREATE) do |ar|
+        @download_file.each do |file|
+          ar.add_file(file)
+          # File.delete(file) # delete file after added to zip
+        end
+    end
   end
   
 end

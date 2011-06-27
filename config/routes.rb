@@ -7,10 +7,13 @@ Everzealot::Application.routes.draw do
   get "home/complete"
   get "home/reset"
   get "home/show"
+  get "home/mail"
+  post "home/download"
   
   match "/authorize" => "home#authorize"
   match "/complete" => "home#complete"
   match "/show" => "home#show"
+  match "/download" => "home#download"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

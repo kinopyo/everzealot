@@ -3,3 +3,12 @@
   They will automatically be included in application.css.
   You can use Sass (SCSS) here: http://sass-lang.com/
 */
+.m {
+	float: left;
+	margin: 20px 0 5px;
+	border-radius: 5px;
+	position: relative;
+	overflow: hidden;
+//	background: url(/static/images/indicator.gif) no-repeat center;
+}
+

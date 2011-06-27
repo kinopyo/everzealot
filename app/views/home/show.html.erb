@@ -1,17 +1,22 @@
 <% if @notes.blank? %>
   <p>There is no image in this notebook.</p>
 <% else%>  
-  <form id="download" action="/download" method="post" >
+	<%= form_tag ({:action => "download"}), {:id => "download"} %>
+
   <% @notes.each do |note|%>
     <% note.resources.each do |resource|%>
+	<div class="m">
       <input type="hidden" name="shard" value="<%= session[:access_token].params['edam_shard'] %>"></input>
       <p class="note_title">title: <%=note.title%> </p>
       <input type="checkbox" value="guid=<%= resource.guid %>&mime=<%= resource.mime %>" name="images[]" ></input>
-      <img src="https://sandbox.evernote.com/shard/<%= session[:access_token].params['edam_shard'] %>/res/<%= resource.guid %>">   
+      <img src="https://sandbox.evernote.com/shard/<%= session[:access_token].params['edam_shard'] %>/res/<%= resource.guid %>" width="306" height="306">   
+	</div>
     <% end%>
   <% end%>
-    <p><input type="submit" value="Download checked" name="checked"></p>
-    <p><input type="button" value="Download all" name="all" onclick="download_all();"></p>
+	<div class="actions" style="display:block">
+	    <p><input type="submit" value="Download checked" name="checked"></p>
+	    <p><input type="button" value="Download all" name="all" onclick="download_all();"></p>
+	</div>
     <script>
       function download_all(){
         $("#download").find(":checkbox").each(function(){

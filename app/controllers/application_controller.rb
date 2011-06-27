@@ -3,4 +3,8 @@ class ApplicationController < ActionController::Base
   def is_image(mime)
     return mime =~ /^image/
   end
+  
+  def login?
+    return !session[:access_token].nil?
+  end
 end
