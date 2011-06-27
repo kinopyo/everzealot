@@ -110,6 +110,7 @@ DEPENDENCIES
   coffee-script
   jquery-rails
   json
+  mail
   oauth
   pg
   rails (= 3.1.0.rc1)

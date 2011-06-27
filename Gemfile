@@ -11,7 +11,9 @@ end
 
 # add thin server
 gem 'thin'
+
 gem 'zipruby'
+gem 'mail'
 
 #add the rubyracer for heroku
 group :production do 
