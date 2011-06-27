@@ -1,0 +1,45 @@
+<%= form_tag ({:action => "send_mail"}), {:id => "send_mail"} %>
+	<p>
+		<label>To:(email address)</label>
+		<input type="text" name="to"/>
+	</p>
+	
+	<p>
+		<label>From:(email address)</label>
+		<input type="text" name="from"/>
+	</p>
+
+	<p>
+		<label>Subject:</label>
+		<textarea name="subject"></textarea>
+	</p>
+		
+	<p>
+		<label>Message:</label>
+		<textarea name="message"></textarea>
+	</p>
+	
+	<p>
+		<label for="attach">Attachment</label>
+		<input id="attach" type="radio" name="type" />
+
+		<label for="inline">Inline</label>
+		<input id="inline" type="radio" name="type" />
+	</p>
+	<p>
+		Also CC to me
+		<input type="checkbox" name="cc_me" />
+	</p>
+	
+	<h2>Selected Images</h2>
+	<% @image_urls.each do |file| %>
+		<img src="<%=file%>" width="150" height="150" />
+		
+	<% end %>
+	
+	<div>
+		<input type="submit" value="Send" />
+		<input type="button" value="Cancel" />	
+	</div>
+	
+</form>

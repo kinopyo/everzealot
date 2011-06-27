@@ -117,32 +117,41 @@ class HomeController < ApplicationController
   end
   
   #actions
-  
-  def mail
-    UserMailer.send_image_mail("kinopyo@gmail.com").deliver
-    render :text => "mail sent"
-  end
-  
-  def download
-    @download_file = Array.new
+  def action
+    @selected_file = Array.new
+    @image_urls = Array.new
     params[:images].each do |image|
       # image/png, image/jpeg  extract the part after slash as file ext
       param = image.match(/guid=(.*)&mime=image\/(.*)/)
       guid = param[1]
       ext = param[2]
-
+      
+      @image_urls << "https://sandbox.evernote.com/shard/#{params[:shard]}/res/#{guid}"
       download_to_server "http://sandbox.evernote.com/shard/#{params[:shard]}/res/#{guid}", "#{guid}", "#{ext}"
     end
-
-    image_directory = "#{Rails.root}/tmp/images/#{session[:access_token].params['edam_userId']}"
-    zip_file_name = "evernote_images_#{session[:access_token].params['edam_userId']}.zip"
-    zip_image image_directory + "/" + zip_file_name
-    # make this zip file download
-    send_file image_directory + "/" + zip_file_name, :type => "application/zip"
     
-    @download_file = nil
-    # redirect_to :back
+    case params[:operation]
+    when 'Send Mail'
+      session[:files] = @selected_file  # TODO change to a good way to keep this info
+      render :action => "new_mail"
+    when 'Download'
+      image_directory = "#{Rails.root}/tmp/images/#{session[:access_token].params['edam_userId']}"
+      zip_file_name = "evernote_images_#{session[:access_token].params['edam_userId']}.zip"
+      zip_image image_directory + "/" + zip_file_name
+      # make this zip file download
+      send_file image_directory + "/" + zip_file_name, :type => "application/zip"
 
+      @selected_file = nil
+    else
+      render :text => 'no action'
+    end
+
+  end
+  
+  def send_mail
+    UserMailer.send_image_mail(params[:to], params[:from], params[:subject], 
+      params[:message], session[:files], params[:attach]).deliver
+    render :text => "mail sent"
   end
   
   def reset
@@ -161,7 +170,7 @@ class HomeController < ApplicationController
     end
     file_name = image_directory + "/" + path + '.' + ext
 
-    @download_file << file_name
+    @selected_file << file_name
     unless File.exists?(file_name)
       File.open(file_name, 'wb') do |output|
         # Download image
@@ -179,7 +188,7 @@ class HomeController < ApplicationController
     File.delete(filename) if File.exists?(filename)
 
     Zip::Archive.open(filename, Zip::CREATE) do |ar|
-        @download_file.each do |file|
+        @selected_file.each do |file|
           ar.add_file(file)
           # File.delete(file) # delete file after added to zip
         end
