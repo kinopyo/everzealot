@@ -7,8 +7,18 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+	<div id="header">
+		<h2>Everzealot - Your Evernote Helper</h2	>
+			<p>alpha release ^^</p>
+	</div>
 
-<%= yield %>
+	<%= yield %>			
+
+	<div id="footer">
+		© 2011 Powered by Kinopyo •  
+	  <a href="about.html" class="zoom">About this site</a> •  
+	  <a href="#" onclick="UserVoice.Popin.show(uservoiceOptions); return false;">Feedback</a>
+	</div>
 
 </body>
 </html>

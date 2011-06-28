@@ -3,12 +3,1107 @@
   They will automatically be included in application.css.
   You can use Sass (SCSS) here: http://sass-lang.com/
 */
-.m {
-	float: left;
-	margin: 20px 0 5px;
-	border-radius: 5px;
-	position: relative;
-	overflow: hidden;
-//	background: url(/static/images/indicator.gif) no-repeat center;
+//.m {
+//	float: left;
+//	margin: 20px 0 5px;
+//	border-radius: 5px;
+//	position: relative;
+//	overflow: hidden;
+////	background: url(/assets/indicator.gif) no-repeat center;
+//}
+
+body, html {
+    background: none repeat scroll 0 0 #303030;
+    color: #EEEEEE;
+    font-family: "Helvetica Neue",Arial,Helvetica,Geneva,sans-serif;
+    margin: 0;
+    padding: 0;
+}
+a {
+    color: rgba(255, 255, 255, 0.8);
+    outline: medium none;
+    text-decoration: none;
+}
+a img {
+    border: medium none;
+}
+.hide {
+    display: none;
+}
+.simplebutton {
+    background: -moz-linear-gradient(0% 100% 90deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.1)) repeat scroll 0 0 transparent;
+    border: 1px solid rgba(0, 0, 0, 0.7);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 1px rgba(255, 255, 255, 0.15) inset;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.6);
+}
+.simplebutton:hover {
+    background: -moz-linear-gradient(0% 100% 90deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.09)) repeat scroll 0 0 transparent;
+}
+.simplebutton:active, a.simplebutton.active {
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15), 0 2px 10px rgba(0, 0, 0, 0.7) inset;
 }
 
+.simpleblock {
+    background: -moz-linear-gradient(0% 100% 90deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.1)) repeat scroll 0 0 transparent;
+    border: 1px solid rgba(0, 0, 0, 0.7);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 1px rgba(255, 255, 255, 0.15) inset;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.6);
+}
+
+#browserWarning {
+    background: none repeat scroll 0 0 #222222;
+    display: none;
+    font-size: 60px;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 100%;
+    z-index: 99999;
+}
+#error {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.3);
+    border-radius: 8px 8px 8px 8px;
+    display: none;
+    margin: 100px auto;
+    padding: 20px;
+    text-align: center;
+    text-shadow: 0 1px 0 #000000;
+    width: 300px;
+}
+.disabled #header {
+    opacity: 0.2;
+}
+.sleep #header, .lightbox #header {
+    -moz-transition: all 0.5s ease 0s;
+    opacity: 0;
+    top: -64px;
+}
+.sleep #footer, .lightbox #footer {
+    -moz-transition: all 0.5s ease 0s;
+    bottom: -64px;
+    opacity: 0;
+}
+.lightbox #content {
+    -moz-transition: all 0.5s ease 0s;
+    height: 0;
+    opacity: 0;
+    padding: 0 0 0 20px;
+}
+#content {
+    overflow: hidden;
+    padding: 60px 0 30px 20px;
+}
+#header {
+    background: -moz-linear-gradient(0% 100% 90deg, rgba(30, 30, 30, 0.95), rgba(50, 50, 50, 0.95)) repeat scroll 0 0 transparent;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+    box-shadow: 0 1px 20px rgba(0, 0, 0, 0.7), 0 1px 1px rgba(0, 0, 0, 0.8) inset;
+    height: 60px;
+    min-width: 720px;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+}
+#controls {
+    float: right;
+    position: relative;
+}
+#stats {
+    float: left;
+    font-size: 11px;
+    height: 60px;
+    line-height: 64px;
+    min-width: 20px;
+    opacity: 0.3;
+    text-align: right;
+    text-shadow: 0 1px 0 #000000;
+}
+#stats.loading {
+    background: url("/assets/indicator.gif") no-repeat scroll right center transparent;
+    color: rgba(255, 255, 255, 0);
+    display: block;
+    text-shadow: 0 1px 0 transparent;
+}
+#controls .buttons {
+    float: right;
+    margin: 17px 20px;
+}
+#controls .buttons a, #followinkstagram a {
+    border-right-style: none;
+    color: rgba(0, 0, 0, 0.6);
+    float: left;
+    font: bold 13px/25px Arial,Helvetica,"Helvetica Neue",Geneva,sans-serif;
+    height: 25px;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 1px 0 rgba(255, 254, 255, 0.1);
+}
+#followinkstagram a {
+    border-radius: 5px 5px 5px 5px;
+    left: 300px;
+    line-height: 12px;
+    padding: 7px;
+    position: absolute;
+    top: 0;
+}
+* {
+}
+.twitter a, .twitter span {
+    background-image: url("http://platform1.twitter.com/widgets/images/tweet.png");
+    background-repeat: no-repeat;
+    cursor: pointer;
+    float: left;
+    height: 20px;
+    width: 55px;
+}
+.twitter span {
+    background-position: right -145px;
+}
+.twitter span a {
+    background: none repeat scroll 0 0 transparent;
+    color: #2A7090;
+    display: block;
+    float: right;
+    font: bold 12px/20px Arial,Helvetica,sans-serif;
+    padding: 0 4px 0 0;
+    text-align: center;
+    width: 42px;
+}
+.twitter > a:hover {
+    background-position: left -21px;
+}
+.twitter > a:active {
+    background-position: left -42px;
+}
+#controls #twitter, #controls #facebook {
+    float: left;
+    height: 20px;
+    margin: 21px 10px;
+}
+#controls #facebook {
+    border: medium none;
+    width: 110px;
+}
+#controls .buttons a:first-of-type {
+    border-radius: 5px 0 0 5px;
+}
+#controls .buttons a:last-of-type {
+    border-radius: 0 5px 5px 0;
+    border-right: 1px solid rgba(0, 0, 0, 0.7);
+}
+#controls .buttons a.noicon span {
+    background: none repeat scroll 0 0 transparent;
+    padding: 0 16px;
+}
+#controls .buttons a span {
+    background: url("/assets/nav.png") no-repeat scroll -278px 5px transparent;
+    display: block;
+    padding: 0 14px 0 30px;
+}
+#controls .buttons a.active span {
+    background-position: -278px -79px;
+    color: #EEEEEE;
+    text-shadow: 0 1px #111111;
+}
+#controls #feedLink span {
+    background-position: 7px 5px;
+}
+#controls #feedLink.active span {
+    background-position: 7px -79px;
+}
+#controls #meLink span {
+    background-position: -136px 5px;
+}
+#controls #meLink.active span {
+    background-position: -136px -79px;
+}
+#controls #likesLink span {
+    background-position: -495px 5px;
+}
+#controls #likesLink.active span {
+    background-position: -495px -79px;
+}
+#controls #accountLink span {
+    background-position: -377px 5px;
+}
+#controls #accountLink.active span {
+    background-position: -377px -79px;
+}
+#searchBox {
+    float: right;
+    margin-left: 10px;
+}
+#searchBox > span {
+    float: left;
+}
+#searchBox input {
+    background: none repeat scroll 0 0 #DDDDDD;
+    border: medium none;
+    border-radius: 5px 0 0 5px;
+    box-shadow: 0 1px 1px rgba(255, 255, 255, 0.1), 0 0 1px #000000 inset, 0 1px 0 #000000 inset, 0 -1px 0 #000000 inset, 1px 0 0 #000000 inset;
+    color: #222222;
+    font-family: Arial,Helvetica,"Helvetica Neue",Geneva,sans-serif;
+    font-size: 14px;
+    height: 27px;
+    line-height: 25px;
+    margin: 0;
+    padding: 0 10px;
+    width: 90px;
+}
+#searchBox input:focus {
+    border-color: rgba(77, 159, 222, 0.63);
+    outline: medium none;
+}
+#controls #searchBox a span {
+    background: url("/assets/search.png") no-repeat scroll 8px 4px transparent;
+    padding: 0 16px;
+}
+#currentUser {
+    float: left;
+    margin: 10px 20px;
+    position: relative;
+    z-index: 99;
+}
+#userImage {
+    background-size: 40px 40px;
+    border-radius: 5px 5px 5px 5px;
+    float: left;
+    height: 40px;
+    margin-right: 10px;
+    width: 40px;
+}
+#username {
+    float: left;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 25px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.9);
+}
+#currentUser .buttons {
+    font-size: 11px;
+    font-weight: bold;
+    left: 49px;
+    position: absolute;
+    top: 22px;
+    width: 300px;
+}
+#currentUser .buttons a {
+    color: rgba(255, 255, 255, 0.3);
+    float: left;
+    font-family: Arial,Helvetica,"Helvetica Neue",Geneva,sans-serif;
+    margin-right: 10px;
+    padding: 6px 0;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.56);
+}
+#currentUser .buttons a strong {
+    color: rgba(255, 255, 255, 0.5);
+}
+#currentUser .buttons a:hover {
+    border-bottom: 3px solid rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.5);
+    text-shadow: none;
+}
+#currentUser .buttons a:hover strong {
+    color: #EEEEEE;
+}
+#currentUser .buttons a.active {
+    border-bottom: 3px solid rgba(255, 255, 255, 0.1);
+    color: #EEEEEE;
+}
+#relationship {
+    float: left;
+    font-size: 12px;
+    margin: 5px;
+}
+#relationship a {
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.02);
+    border-radius: 3px 3px 3px 3px;
+    color: rgba(255, 255, 255, 0.2);
+    float: left;
+    font-weight: bold;
+    padding: 3px 10px;
+}
+#relationship a:hover {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.2);
+    color: rgba(255, 255, 255, 0.5);
+}
+#socialshare {
+    clear: both;
+    float: left;
+    margin: 10px 0;
+    width: 100%;
+}
+#sharethisbutton {
+    float: left;
+    margin: 11px 0;
+}
+#sharethisbutton span {
+    padding-left: 20px;
+    width: auto;
+}
+#login {
+    background: none repeat scroll 0 0 rgba(80, 80, 80, 0.8);
+    display: none;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+}
+#login .wrap {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.7);
+    border-radius: 7px 7px 7px 7px;
+    color: #CCCCCC;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 100px auto;
+    padding: 5px 20px 20px;
+    text-align: center;
+    text-shadow: 0 1px 1px #000000;
+    width: 350px;
+}
+#login a {
+    background: -moz-linear-gradient(0% 100% 90deg, #156592, #3BB4F6) repeat scroll 0 0 transparent;
+    border-radius: 50px 50px 50px 50px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5), 0 1px 1px rgba(255, 255, 255, 0.3) inset;
+    display: block;
+    font-weight: bold;
+    margin: 15px auto 0;
+    padding: 10px 15px;
+    text-shadow: 0 1px 0 #0C4767;
+    width: 120px;
+}
+#login .wrap div {
+    cursor: pointer;
+    margin-top: 10px;
+}
+#welcome, #account {
+    background: none repeat scroll 0 0 rgba(80, 80, 80, 0.9);
+    display: none;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    text-align: center;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+}
+#welcome h1 {
+//    background: url("/assets/logo.png") no-repeat scroll center center transparent;
+    font-size: 60px;
+    margin: 30px 20px;
+//    text-indent: -99999px;
+}
+#welcome h1 strong {
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.05);
+    border-radius: 5px 5px 5px 5px;
+    padding: 0 5px;
+}
+#welcome h2 {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.2);
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 16px;
+    font-weight: normal;
+    margin: 0 -20px;
+    padding: 10px 20px;
+    text-align: center;
+}
+#welcome h2 a {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: bold;
+}
+#welcome .wrap, #account .wrap {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
+    border-radius: 7px 7px 7px 7px;
+    color: #CCCCCC;
+    font-size: 13px;
+    margin: 100px auto;
+    overflow: hidden;
+    padding: 5px 20px 20px;
+    text-shadow: 0 1px 1px #000000;
+    width: 650px;
+}
+#welcome .features {
+    background: url("/assets/features.png") no-repeat scroll 40px 0 rgba(255, 255, 255, 0.1);
+    margin: 0 -20px;
+    overflow: hidden;
+    padding: 40px;
+}
+#welcome .features li {
+    float: left;
+    height: 70px;
+    line-height: 160px;
+    list-style-type: none;
+    text-align: center;
+    width: 150px;
+}
+#welcome .bottom {
+    margin: 40px 0 30px;
+    overflow: hidden;
+}
+#welcome a.simplebutton {
+    background: -moz-linear-gradient(0% 100% 90deg, #156592, #3BB4F6) repeat scroll 0 0 transparent;
+    border: medium none;
+    border-radius: 7px 7px 7px 7px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5), 0 1px 1px rgba(255, 255, 255, 0.3) inset;
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 20px;
+    margin: 0 auto;
+    padding: 10px 55px;
+    width: 300px;
+}
+#account {
+    background: none repeat scroll 0 0 transparent;
+    display: none;
+    position: absolute;
+}
+#account .film {
+    background: none repeat scroll 0 0 rgba(80, 80, 80, 0.9);
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+#account .wrap {
+    margin: 100px auto;
+    padding: 0;
+    position: relative;
+    text-align: left;
+    width: 700px;
+}
+#account .close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+#account .tabs {
+    height: 50px;
+}
+#account .tabs a {
+    float: left;
+    font-weight: bold;
+    height: 50px;
+    line-height: 50px;
+    opacity: 0.5;
+    padding: 0 20px 0 60px;
+}
+#account .tabs a:first-of-type {
+    border-radius: 7px 0 0 0;
+}
+#account .tabs a.active {
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.9);
+    border-radius: 7px 7px 0 0;
+    color: #222222;
+    opacity: 1;
+    text-shadow: none;
+}
+#account .content {
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.9);
+    border-radius: 0 0 7px 7px;
+    color: #CCCCCC;
+    padding: 20px;
+    text-shadow: none;
+}
+#account .content h2 {
+    color: #555555;
+    font-size: 17px;
+    text-shadow: none;
+}
+#account .content .field {
+    border-bottom: 1px solid;
+    overflow: hidden;
+    padding: 20px 0;
+}
+#account .content .field .label {
+    color: #777777;
+    float: left;
+    margin-right: 25px;
+    text-shadow: 0 1px 0 #EEEEEE;
+    width: 200px;
+}
+#account .content .field input {
+    float: left;
+}
+#account .content .field input[type="text"], #account .content .field textarea, #account .content .field select {
+    border: 2px solid #999999;
+    box-shadow: 0 2px 1px #DDDDDD inset;
+    color: #444444;
+    font: 16px Arial,"Helvetica Neue",Helvetica,Geneva,sans-serif;
+    outline: medium none;
+    padding: 6px;
+    width: 350px;
+}
+#account .content .field textarea {
+    font-size: 14px;
+}
+#account .content .field label {
+    color: #555555;
+    font-size: 16px;
+    padding-left: 10px;
+}
+#account .content .button {
+    background: none repeat scroll 0 0 #000000;
+    border-radius: 7px 7px 7px 7px;
+    float: left;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 20px;
+}
+#account .content .buttons {
+    border-top: 1px solid #FFFFFF;
+    overflow: hidden;
+    padding: 15px 0 0;
+}
+#account .content .buttons a {
+    background: none repeat scroll 0 0 #000000;
+    border-radius: 7px 7px 7px 7px;
+    float: right;
+    font-weight: bold;
+    opacity: 0.8;
+    padding: 10px 15px;
+}
+#account .content .buttons a:hover {
+    opacity: 1;
+}
+.m {
+    background: url("/assets/indicator.gif") no-repeat scroll center center transparent;
+    border-radius: 5px 5px 5px 5px;
+    float: left;
+    margin: 20px 0 5px;
+    overflow: hidden;
+    position: relative;
+}
+.m img {
+    -moz-transition: all 0.3s ease 0s;
+    border-radius: 3px 3px 3px 3px;
+    cursor: pointer;
+    opacity: 0;
+}
+.m > a {
+    position: relative;
+}
+
+.m > a .caption {
+    -moz-transition: opacity 0.3s ease 0s;
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.75);
+    bottom: 0;
+    font: 13px/18px Georgia,"Times New Roman",Times,serif;
+    left: 0;
+    opacity: 0;
+    padding: 20px;
+    position: absolute;
+    right: 0;
+    text-shadow: 0 1px 0 #000000;
+}
+.m > a:hover .caption {
+    opacity: 1;
+}
+.m .meta {
+    color: #999999;
+    font-size: 13px;
+    overflow: hidden;
+    padding: 5px 0 10px;
+}
+.m .meta a.user {
+    color: #999999;
+    float: left;
+    font-weight: bold;
+    max-width: 100px;
+    overflow: hidden;
+    text-align: center;
+    text-shadow: 0 -1px #222222;
+}
+.m .meta a:hover {
+    text-decoration: underline;
+}
+
+.m > label {
+    position: relative;
+}
+
+.photo .meta span, .photo .meta .comments, .photo .meta .likes {
+    background: url("/assets/like.png") no-repeat scroll 0 0 transparent;
+    float: right;
+    margin-left: 10px;
+    opacity: 0.4;
+    text-align: left;
+    text-indent: 18px;
+}
+.photo .meta .likes.does {
+    background-position: 0 -25px;
+}
+.photo .meta .comments {
+    background-image: url("/assets/comment.png");
+    right: 40px;
+}
+.photo.small {
+    padding-bottom: 0;
+    width: 150px;
+}
+.photo.small span {
+    display: none;
+    float: left;
+}
+.iconify img {
+    opacity: 1;
+}
+#socialsharing {
+    float: left;
+    margin: 23px 5px 0;
+}
+#fullFrontal {
+    margin-bottom: 20px;
+    min-height: 612px;
+    overflow: hidden;
+    padding: 20px;
+    width: 1000px;
+}
+#backButton {
+    border-radius: 0 0 0 5px;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 6px 10px;
+    position: fixed;
+    right: -1px;
+    top: -1px;
+}
+#photoDetails > img {
+    border-radius: 7px 7px 7px 7px;
+    float: left;
+    position: fixed;
+}
+#photoDetails .meta {
+    margin-left: 650px;
+    width: 350px;
+}
+#metaContent .user {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: transparent;
+    background-image: url("/assets/empty.png");
+    background-origin: padding-box;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: 40px 40px;
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    height: 40px;
+    opacity: 0.85;
+    padding-left: 52px;
+}
+#metaContent .user span {
+    display: block;
+    opacity: 0.3;
+}
+#metaContent .user span.emoji {
+    display: inline-block;
+}
+#metaContent .user span:first-of-type {
+    font-size: 16px;
+    margin-bottom: 3px;
+    opacity: 1;
+}
+#metaContent .user:hover {
+    opacity: 1;
+}
+#photoDetails .caption {
+    font: 30px Georgia,"Times New Roman",Times,serif;
+    padding: 20px 0;
+    text-shadow: 0 1px 0 #000000;
+}
+#photoDetails .table {
+    overflow: hidden;
+    padding-bottom: 15px;
+}
+#photoDetails .table > div {
+    background: url("/assets/table.png") no-repeat scroll 5px 4px rgba(255, 255, 255, 0.05);
+    border-radius: 3px 3px 3px 3px;
+    color: rgba(255, 255, 255, 0.6);
+    float: left;
+    font-size: 14px;
+    margin: 5px 5px 0 0;
+    padding: 4px 10px 4px 26px;
+    text-shadow: 0 -1px rgba(0, 0, 0, 0.6);
+}
+#photoDetails .table > div[data-empty=""] {
+    display: none;
+}
+#photoDetails .table .date {
+    background-position: 5px -59px;
+}
+#photoDetails .table .filter {
+    background-position: 5px -37px;
+}
+#photoDetails .table .link {
+    background-position: 5px -79px;
+}
+#photoDetails .table .tags {
+    background-position: 5px -16px;
+}
+#imageLocation {
+    -moz-transition: all 0.3s ease 0s;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 0 1px 3px #000000;
+    height: 0;
+    margin: 15px 0 0;
+    opacity: 0;
+    overflow: hidden;
+    width: 350px;
+}
+#imageLocation.visible {
+    height: 100px;
+    opacity: 1;
+}
+#photoDetails .tabs {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    clear: both;
+    height: 31px;
+    margin: 20px 0 10px;
+}
+#photoDetails .tabs span {
+    background: url("/assets/like.png") no-repeat scroll 12px 9px transparent;
+    border-radius: 5px 5px 0 0;
+    color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    float: left;
+    font-size: 13px;
+    font-weight: bold;
+    height: 32px;
+    line-height: 32px;
+    overflow: hidden;
+    padding: 0 10px 0 36px;
+}
+#photoDetails .tabs span.likes.does {
+    background-position: 12px -15px;
+}
+#photoDetails .tabs span:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+#photoDetails .tabs span.comments {
+    background-image: url("/assets/comment.png");
+}
+#photoDetails .tabs span.active {
+    background-color: #333333;
+    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.1) inset, 0 -1px rgba(0, 0, 0, 0.2);
+    color: #EEEEEE;
+}
+#likesAndComments .comment {
+    font-size: 12px;
+    overflow: hidden;
+    padding: 10px 20px 10px 10px;
+    position: relative;
+    text-shadow: 0 1px #111111;
+}
+#likesAndComments .comment:nth-of-type(2n+1) {
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.03);
+}
+#likesAndComments .comment a.user {
+    float: left;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 18px;
+    margin-right: 10px;
+}
+#likesAndComments .comment a.remove {
+    opacity: 0.5;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+#likesAndComments .comment div {
+    display: inline;
+    line-height: 18px;
+    opacity: 0.7;
+}
+#likesAndComments .comment div img {
+    vertical-align: top;
+}
+#likesAndComments .comment .profilepicture {
+    float: left;
+    margin-right: 10px;
+    width: 32px;
+}
+#likesAndComments .comment .profilepicture img {
+    display: block;
+    width: 32px;
+}
+#likesAndComments .like {
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.03);
+    border-radius: 3px 3px 3px 3px;
+    float: left;
+    font-size: 12px;
+    margin: 3px 3px 0 0;
+    padding: 5px 10px;
+    text-shadow: 0 1px #111111;
+}
+#likesAndComments .like:hover, #likesAndComments .comment a.user:hover {
+    text-decoration: underline;
+}
+#commentsForm {
+    display: none;
+    overflow: hidden;
+    padding: 0 0 10px;
+    position: relative;
+}
+#commentsForm div {
+    -moz-border-bottom-colors: none;
+    -moz-border-image: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.9);
+    border-color: #000000 -moz-use-text-color #000000 #000000;
+    border-radius: 5px 0 0 5px;
+    border-style: solid none solid solid;
+    border-width: 1px 0 1px 1px;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 2px 2px rgba(0, 0, 0, 0.2) inset;
+    float: left;
+    height: 40px;
+    overflow: hidden;
+    width: 250px;
+}
+#commentsForm textarea {
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    color: #333333;
+    font: 13px Arial,"Helvetica Neue",Helvetica,Geneva,sans-serif;
+    height: 30px;
+    margin: 5px;
+    outline: medium none;
+    padding: 0;
+    width: 240px;
+}
+#commentsForm a {
+    border-radius: 0 5px 5px 0;
+    float: left;
+    font-size: 12px;
+    height: 40px;
+    line-height: 40px;
+    text-indent: 20px;
+    width: 96px;
+}
+#likesForm {
+    display: none;
+    padding: 0 0 10px;
+}
+#likesForm a {
+    border-radius: 5px 5px 5px 5px;
+    display: block;
+    opacity: 0.3;
+    padding: 10px 0;
+    text-align: center;
+    width: 100%;
+}
+#likesForm a:hover {
+    opacity: 1;
+}
+#footer {
+    -moz-transition: all 0.3s ease 0s;
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.8);
+    border-top: 1px solid #000000;
+    bottom: 0;
+    font-size: 16px;
+    position: fixed;
+    text-align: center;
+    width: 100%;
+    z-index: 9999;
+}
+#footer:hover {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.9);
+}
+#api {
+    opacity: 0.3;
+}
+#builtBy {
+    float: left;
+    margin: 4px 20px 0;
+    opacity: 0.8;
+}
+#builtBy a {
+    border-bottom: 1px dotted #999999;
+}
+#sizing {
+    float: right;
+    margin-right: 20px;
+}
+#sizing a {
+    color: #FFFFFF;
+    float: left;
+    font-size: 11px;
+    font-weight: bold;
+    opacity: 0.6;
+    padding: 5px 13px;
+}
+#sizing a:hover {
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.2);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+}
+#sizing a.active {
+    border-bottom: 2px solid #FFFFFF;
+    opacity: 0.9;
+}
+#paginate {
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF;
+    display: block;
+    font: bold 20px/13px Arial,Helvetica,"Helvetica Neue",Geneva,sans-serif;
+    margin: 0 20px 42px;
+    opacity: 0.5;
+    overflow: hidden;
+    padding: 15px 0;
+    text-align: center;
+    text-shadow: 0 1px 0 #05334C;
+}
+#paginate:hover {
+    opacity: 1;
+}
+#paginate:active {
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15), 0 2px 10px rgba(0, 0, 0, 0.7) inset;
+}
+#paginate.hidden, .lightbox #paginate {
+    display: none;
+}
+#twitterBG .tool {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.2);
+    margin: 20px auto;
+    padding: 5px 20px 20px;
+    width: 200px;
+}
+#twitterBG h3 {
+    font-size: 14px;
+    font-weight: normal;
+    opacity: 0.5;
+}
+#twitterBG .tool > img {
+    border-radius: 5px 5px 5px 5px;
+}
+#twitterBGResponse {
+    display: none;
+    margin: 10px 0;
+    position: relative;
+}
+#twitterBGResponse div {
+    font-size: 12px;
+    margin-top: 5px;
+    opacity: 0.2;
+    text-align: center;
+}
+#twitterBGResponse a, #twitterBGGenerate {
+    background: -moz-linear-gradient(0% 100% 90deg, #156592, #3BB4F6) repeat scroll 0 0 transparent;
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 10px 0;
+    padding: 10px;
+    text-align: center;
+}
+#twitterBGImage {
+    text-align: center;
+}
+#twitterBGImage img {
+    height: 200px;
+    width: 200px;
+}
+#twitterBG .tweet {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.2);
+    margin: 20px -20px -20px;
+    padding: 10px 20px;
+}
+#emojibox {
+    background-color: rgba(30, 30, 30, 0.95);
+    border-radius: 3px 3px 3px 3px;
+    color: rgba(255, 255, 255, 0.6);
+    display: none;
+    float: left;
+    font-size: 14px;
+    margin-bottom: 10px;
+    position: absolute;
+    width: 350px;
+    z-index: 1000;
+}
+#emojibox span {
+    cursor: pointer;
+}
+#emojibox div {
+    clear: both;
+    float: left;
+    padding: 10px;
+}
+#emojibox div.icons div {
+    display: none;
+}
+#emojibox div.icons div.active {
+    display: block;
+}
+#emojibox div.icons span {
+    background-image: url("/assets/emojitiles.png");
+    float: left;
+    height: 18px;
+    padding: 1px;
+    width: 18px;
+}
+#emojibox ul {
+    float: left;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+#emojibox ul li {
+    float: left;
+    padding: 10px;
+    width: 48px;
+}
+#emojibox ul li span {
+    background-image: url("/assets/emojitiles.png");
+    background-repeat: no-repeat;
+    display: block;
+    height: 20px;
+    margin: 0 auto;
+    width: 20px;
+}
+#commentpreview {
+    background-color: rgba(30, 30, 30, 0.95);
+    border-radius: 3px 3px 3px 3px;
+    color: rgba(255, 255, 255, 0.6);
+    float: left;
+    font-size: 14px;
+    left: 500px;
+    margin-bottom: 10px;
+    padding: 5px;
+    position: absolute;
+    top: 400px;
+    width: 300px;
+    z-index: 1000;
+}
+#commentpreview em {
+    border-bottom: 1px solid #AAAAAA;
+    display: block;
+    font-style: normal;
+    padding: 5px;
+}
+#commentpreview p {
+    font-size: 12px;
+    margin: 0;
+    padding: 5px;
+    text-shadow: 0 1px #111111;
+    vertical-align: middle;
+}
+#commentpreview p img {
+    vertical-align: middle;
+}
+
+.sendmail {
+	background:url(/assets/mail.png) no-repeat;
+	width:32;
+	height:32;
+	cursor:pointer;
+	border: none;
+}

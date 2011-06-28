@@ -1,18 +1,28 @@
 <% if @is_login %>
 	<h1>Select the notebooks you want to scan</h1>
-	<p>
-	  You account contains the following notebooks:
-	</p>
-	<ul>    
+	<ul class="notebooks">    
 	<% @notebooks.each do |notebook| %>
-	      <li><a href="/show?guid=<%=notebook.guid %>" >name :<%= notebook.name %></a></li>
+	      <li><img class="notebook" src="/assets/notebook.png"/><a href="/show?guid=<%=notebook.guid %>" ><%= notebook.name %></a></li>
 	      <br>
+
 	<% end %>
 	</ul>
-	<a href="/show?guid=all">Scan all(May take a while depends on your notes)</a>
+	<img class="notebook" src="/assets/search.png"/><a href="/show?guid=all">Scan all(May take a while...)</a>
 	
 <% else %>	
-	<p>
-	  <a href="/authorize">Login to Evernote</a> to authorize this application to access your Evernote account. You will be directed to evernote.com to authorize access, then returned to this application after authorization is complete.
-	</p>
+<div id="welcome" style="display:block">
+	<div class="wrap">
+		<h1>Ever<strong>zealot</strong></h1>
+		<h2>A site aimed for making your life easier with Evernote</h2>
+		<ul class="feature" style="text-align:left">
+			<li class="like">Browse all your images in Evernote</li>
+			<li class="comment">Download or Email them</li>
+			<li class="more">More on the way</li>
+		</ul>
+		
+		<div class="bottom">
+			<a href="/authorize" class="simplebutton">Log in through Evernote</a>
+		</div>
+	</div>
+</div>
 <% end %>

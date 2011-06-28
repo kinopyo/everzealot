@@ -1,25 +1,34 @@
 <% if @notes.blank? %>
   <p>There is no image in this notebook.</p>
-<% else%>  
+	<%= link_to "Back to Top", "/"%>
+<% else%> 
 	<%= form_tag ({:action => "action"}), {:id => "download"} %>
-
+	<div id="content"> 
   <% @notes.each do |note|%>
     <% note.resources.each do |resource|%>
-	<div class="m">
-      <input type="hidden" name="shard" value="<%= session[:access_token].params['edam_shard'] %>"></input>
-      <p class="note_title">title: <%=note.title%> </p>
-      <input type="checkbox" value="guid=<%= resource.guid %>&mime=<%= resource.mime %>" name="images[]" ></input>
-      <img src="https://sandbox.evernote.com/shard/<%= session[:access_token].params['edam_shard'] %>/res/<%= resource.guid %>" width="306" height="306">   
-	</div>
+			<div class="photo m">
+		      <input type="hidden" name="shard" value="<%= session[:access_token].params['edam_shard'] %>"></input>
+					<input id="i_<%=resource.guid%>" type="checkbox" style="display:none" value="guid=<%= resource.guid %>&mime=<%= resource.mime %>" name="images[]" ></input>
+					<a href="#" data-photo="i_<%=resource.guid%>"><img src="https://sandbox.evernote.com/shard/<%= session[:access_token].params['edam_shard'] %>/res/<%= resource.guid %>"
+						 width="306" height="306" onload="this.style.opacity=1;" style="opacity: 1;"/></a>
+					<div class="meta">
+						Title: <%=note.title%>
+					</div>
+			</div><!--div.photo.m-->
     <% end%>
   <% end%>
-	<div class="actions" style="display:block">
-	    <p><input type="submit" value="Download" name="operation"></p>
-	    <p><input type="submit" value="Send Mail" name="operation"></p>
-	    <p><input id="select_all" type="button" value="Select all" name="all"></p>
-	    <p><input id="deselect_all" type="button" value="Deselect all" name="all"></p>
-	</div>
-  </form>
-<% end %>
 
-<%= link_to "Back to Top", "/"%>
+	</div><!-- div #content-->
+
+<div id="paginate" class="actions simpleblock ">
+	<input id="select_all" type="button" value="Select all" name="all" />
+  <input id="deselect_all" type="button" value="Deselect all" name="all" />
+
+	<input id="operation_input" type="hidden" name="operation" value="">
+	<a href="#" id="a_download"><img src="/assets/download.png" />Download</a>
+	<a href="#" id="a_sendmail"><img src="/assets/mail.png" />Send Mail</a>
+	<a href="/"><img src="/assets/back.png" />Back</a>
+</div>
+
+</form>
+<% end %>
