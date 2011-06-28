@@ -118,6 +118,12 @@ class HomeController < ApplicationController
   
   #actions
   def action
+    if params[:images].nil?
+      @last_error = "please select images"
+      render :error 
+      return
+    end
+    
     @selected_file = Array.new
     @image_urls = Array.new
     params[:images].each do |image|
