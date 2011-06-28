@@ -5,3 +5,53 @@
  *= require_self
  *= require_tree . 
 */
+/* ------------------------------
+ page styles
+------------------------------ */
+/*
+body { background:#333 url(/assets/bg-body.png) repeat fixed; font:13px sans-serif, "Helvetica Neue", Helvetica, Arial, Geneva; color:#9D9D9D; text-align:center; text-shadow:#000 1px 1px 1px; }
+body { -webkit-text-stroke:1px transparent; }
+* { margin:0; padding:0; }
+html { overflow:hidden; overflow-y:scroll; overflow-y:scroll !important; }
+ul { list-style:none; }
+a:active,a:focus { outline:0; border:none; }
+a:hover { text-decoration:none; }
+img { border:0; }
+
+a { color:#9D9D9D; margin-left:4px; margin-right:4px; }
+a:hover { border-bottom:1px solid #515151; color:#C8C8C8; text-decoration:none; }
+#footer a {text-decoration:none;}
+.stitchline { background:url(/assets/stitched-line.png) repeat-x; height:10px; margin-top:25px; margin-bottom:10px; }
+
+div#container {
+	min-height: 700px;
+	background: url(/assets/sectionbg.png) repeat;
+}
+
+#footer {
+	background: url(/assets/bg-body.png);
+}
+
+ul.notebooks {
+	text-align:left;
+	margin-left: 40%;
+}
+
+img.notebook {
+	margin-bottom: -8px;
+};
+
+.checkbox-checked {
+	background-image: url(/assets/checkbox_custom_img.png);
+    background-position: 0px 0;
+    height: 34px;
+    width: 34px;
+}
+ 
+.checkbox-unchecked {
+	background-image: url(/assets/checkbox_custom_img.png);
+	height: 34px;
+  width: 34px;
+  background-position: 0 -34px;
+}*/
+
