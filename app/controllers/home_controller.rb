@@ -164,11 +164,17 @@ class HomeController < ApplicationController
   # download images to server
   def download_to_server full_url, path, ext
     require 'open-uri'
-    image_directory = "#{Rails.root}/tmp/images/#{session[:access_token].params['edam_userId']}"
+    image_directory = "#{Rails.root}/tmp/images"
+    user_directory = image_directory + "/#{session[:access_token].params['edam_userId']}"
     unless File.directory? image_directory 
       Dir::mkdir( image_directory ) # 第二パラメータ省略時のパーミッションは0777
     end
-    file_name = image_directory + "/" + path + '.' + ext
+    
+    unless File.directory? user_directory 
+      Dir::mkdir( user_directory ) # 第二パラメータ省略時のパーミッションは0777
+    end
+    
+    file_name = user_directory + "/" + path + '.' + ext
 
     @selected_file << file_name
     unless File.exists?(file_name)
