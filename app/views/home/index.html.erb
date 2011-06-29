@@ -1,4 +1,4 @@
-<% if @is_login %>
+<div id="content">
 	<h1>Select the notebooks you want to scan</h1>
 	<ul class="notebooks">    
 	<% @notebooks.each do |notebook| %>
@@ -8,21 +8,4 @@
 	<% end %>
 	</ul>
 	<img class="notebook" src="/assets/search.png"/><a href="/show?guid=all">Scan all(May take a while...)</a>
-	
-<% else %>	
-<div id="welcome" style="display:block">
-	<div class="wrap">
-		<h1>Ever<strong>zealot</strong></h1>
-		<h2>A site aimed for making your life easier with Evernote</h2>
-		<ul class="feature" style="text-align:left">
-			<li class="like">Browse all your images in Evernote</li>
-			<li class="comment">Download or Email them</li>
-			<li class="more">More on the way</li>
-		</ul>
-		
-		<div class="bottom">
-			<a href="/authorize" class="simplebutton">Log in through Evernote</a>
-		</div>
-	</div>
 </div>
-<% end %>

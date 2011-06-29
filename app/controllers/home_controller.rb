@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
   def index
+    p session[:access_token]
     @is_login = login?
     if @is_login
       shard_id = session[:access_token].params['edam_shard']
@@ -14,11 +15,23 @@ class HomeController < ApplicationController
         @notebooks = noteStore.listNotebooks(session[:access_token].token)
         session[:notebooks] = @notebooks
       rescue Exception => e
-        @last_error = e.message
+        if e.instance_of? Evernote::EDAM::Error::EDAMUserException
+          if e.errorCode == Evernote::EDAM::Error::EDAMErrorCode::AUTH_EXPIRED
+            @last_error = "Authentication expired, please authrize again."  #TODO here
+            session[:access_token] = nil
+            session[:notebooks] = nil
+          else
+            @last_error = e.message
+          end
+        else
+          @last_error = e.message
+        end
         render :error
       end
-      
+    else
+      render :welcome  
     end
+    
   end
 
   def show
@@ -132,14 +145,17 @@ class HomeController < ApplicationController
       guid = param[1]
       ext = param[2]
       
-      @image_urls << "https://sandbox.evernote.com/shard/#{params[:shard]}/res/#{guid}"
-      download_to_server "http://sandbox.evernote.com/shard/#{params[:shard]}/res/#{guid}", "#{guid}", "#{ext}"
+      shard = session[:access_token].params['edam_shard']
+      @image_urls << "https://sandbox.evernote.com/shard/#{shard}/res/#{guid}"
+      download_to_server "http://sandbox.evernote.com/shard/#{shard}/res/#{guid}", "#{guid}", "#{ext}"
     end
     
     case params[:operation]
     when 'Send Mail'
       session[:files] = @selected_file  # TODO change to a good way to keep this info
-      render :action => "new_mail"
+      session[:image_urls] = @image_urls
+      # render :action => "new_mail"
+      redirect_to :controller => "emails", :action => "new"
     when 'Download'
       image_directory = "#{Rails.root}/tmp/images/#{session[:access_token].params['edam_userId']}"
       zip_file_name = "evernote_images_#{session[:access_token].params['edam_userId']}.zip"

@@ -1,0 +1,47 @@
+<%= form_for(@email) do |f| %>
+  <% if @email.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@email.errors.count, "error") %> prohibited this email from being saved:</h2>
+
+      <ul>
+      <% @email.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :from_email %><br />
+    <%= f.text_field :from_email %>
+  </div>
+  <div class="field">
+    <%= f.label :to_email %><br />
+    <%= f.text_field :to_email %>
+  </div>
+  <div class="field">
+    <%= f.label :subject %><br />
+    <%= f.text_field :subject, :value => '[EverZealot]Shared images with you' %>
+  </div>
+  <div class="field">
+    <%= f.label :message %><br />
+    <%= f.text_area :message, :size=>"40x5" %>
+  </div>
+  <div class="field">
+    <%= f.label :attach %><br />
+    <%= f.check_box :attach %>
+  </div>
+  <div class="field">
+    <%= f.label :cc %><br />
+    <%= f.text_field :cc %>
+  </div>
+
+	<h2>Selected Images</h2>
+	<% session[:image_urls].each do |file| %>
+		<img src="<%=file%>" width="150" height="150" />
+	<% end %>
+	
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

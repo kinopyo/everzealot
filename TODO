@@ -1,3 +1,10 @@
 delay_job to delete downloaded image and zip file, after say 10 min.
+	But heroku worker cause 15$ per month... struggle.
 
 design the layout(css)
+
+== View
+/show -> image padding too short..
+
+== 悩み
+still don't have a good route setting
