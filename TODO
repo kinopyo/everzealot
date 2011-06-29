@@ -5,6 +5,7 @@ design the layout(css)
 
 == View
 /show -> image padding too short..
+			-> after getting thumbnail from evernote, the small size image need to set to center
 
 == 悩み
 still don't have a good route setting

@@ -31,7 +31,7 @@ $ ->
 		else
 			$chkbox.removeAttr("checked")
 			$(this).css("opacity", 1)
-			
+			$(this).parent().css("background", "none")
 		# prevent the url change caused by <a href="#"...>
 		e.preventDefault()
 	)

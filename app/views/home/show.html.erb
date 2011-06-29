@@ -8,8 +8,8 @@
     <% note.resources.each do |resource|%>
 			<div class="photo m">
 					<input id="i_<%=resource.guid%>" type="checkbox" style="display:none" value="guid=<%= resource.guid %>&mime=<%= resource.mime %>" name="images[]" ></input>
-					<a href="#" data-photo="i_<%=resource.guid%>"><img src="https://sandbox.evernote.com/shard/<%= session[:access_token].params['edam_shard'] %>/res/<%= resource.guid %>"
-						 width="306" height="306" onload="this.style.opacity=1;" style="opacity: 1;"/></a>
+					<a href="#" data-photo="i_<%=resource.guid%>"><img src="https://sandbox.evernote.com/shard/<%= session[:access_token].params['edam_shard'] %>/thm/res/<%= resource.guid %>"
+onload="this.style.opacity=1;" style="opacity: 1;"/></a>
 					<div class="meta">
 						Title: <%=note.title%>
 					</div>
