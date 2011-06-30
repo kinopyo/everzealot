@@ -164,7 +164,7 @@ class HomeController < ApplicationController
       next if note.resources.nil?
       note.resources.each do |resource|
         if is_image(resource.mime)
-          ret << EvernoteImage.new(resource.guid, resource.mime, session[:access_token].params['edam_shard'], note.title)
+          ret << EvernoteImage.new(resource, session[:access_token].params['edam_shard'], note.title)
         end
       end
     end

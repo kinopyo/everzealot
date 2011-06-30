@@ -1,10 +1,14 @@
-class EvernoteImage < Object
+class EvernoteImage < Evernote::EDAM::Type::Resource
   
-  attr_accessor :guid, :mime, :shard, :title, :url
+  attr_accessor :guid, :mime, :shard, :title, :url, :width, :height, :size
 
-  def initialize(guid, mime, shard,title)
-    @guid = guid
-    @mime = mime
+  def initialize(evernote_resource, shard,title)
+    @guid = evernote_resource.guid
+    @mime = evernote_resource.mime
+    @size = evernote_resource.data.size
+    @width = evernote_resource.width
+    @height = evernote_resource.height
+    
     @shard = shard
     @title = title
     self.init_image_url

@@ -15,6 +15,7 @@ $ ->
 			$(this).removeAttr("checked")
 		$("#download").find("div.photo a").each ->
 			$(this).css("opacity", 1)
+			$(this).parent().css("background", "none")
 	)
 	
 	$("div.photo").find("a").click((e) ->
