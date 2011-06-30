@@ -55,6 +55,9 @@ class HomeController < ApplicationController
       rescue Evernote::EDAM::Error::EDAMUserException => e
         @last_error = e.errorCode
         render :error
+      rescue Exception => e
+        @last_error = e
+        render :error
       end
 
     end
