@@ -18,7 +18,7 @@ class EmailsController < ApplicationController
           # render :text => "Email was successfully sent"
         format.html { redirect_to :controller => "home", :action => "index", notice: 'Email was successfully created.' }
       else
-        format.html { render :action =>  "new" }
+        format.html { render :action => "new" }
       end
     end
   end
