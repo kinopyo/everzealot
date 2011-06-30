@@ -6,8 +6,9 @@ class EvernoteImage < Evernote::EDAM::Type::Resource
     @guid = evernote_resource.guid
     @mime = evernote_resource.mime
     @size = evernote_resource.data.size
-    @width = evernote_resource.width
-    @height = evernote_resource.height
+    # TODO some image resource down not contain width and height
+    @width = set_if_not_nil(evernote_resource.width, 300)
+    @height = set_if_not_nil(evernote_resource.height, 300)
     
     @shard = shard
     @title = title
@@ -16,5 +17,13 @@ class EvernoteImage < Evernote::EDAM::Type::Resource
 
   def init_image_url
     @url = "#{EVERNOTE_SERVER}/shard/#{@shard}/thm/res/#{@guid}"
+  end
+  
+  def set_if_not_nil(value, default)
+    if value.nil?
+      default
+    else
+      value
+    end
   end
 end
