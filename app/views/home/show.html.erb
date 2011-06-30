@@ -1,20 +1,17 @@
-<% if @notes.blank? %>
+<% if @images.blank? %>
   <p>There is no image in this notebook.</p>
 	<%= link_to "Back to Top", "/"%>
 <% else%> 
 	<%= form_tag ({:action => "action"}), {:id => "download"} %>
 	<div id="content"> 
-  <% @notes.each do |note|%>
-    <% note.resources.each do |resource|%>
+  <% @images.each do |image|%>
 			<div class="photo m">
-					<input id="i_<%=resource.guid%>" type="checkbox" style="display:none" value="guid=<%= resource.guid %>&mime=<%= resource.mime %>" name="images[]" ></input>
-					<a href="#" data-photo="i_<%=resource.guid%>"><img src="https://sandbox.evernote.com/shard/<%= session[:access_token].params['edam_shard'] %>/thm/res/<%= resource.guid %>"
-onload="this.style.opacity=1;" style="opacity: 1;"/></a>
+					<input id="i_<%=image.guid%>" type="checkbox" style="display:none" value="guid=<%= image.guid %>&mime=<%= image.mime %>" name="images[]" ></input>
+					<a href="#" data-photo="i_<%=image.guid%>"><img src="<%=image.url%>" onload="this.style.opacity=1;" style="opacity: 1;"/></a>
 					<div class="meta">
-						Title: <%=note.title%>
+						Title: <%=image.title%>
 					</div>
 			</div><!--div.photo.m-->
-    <% end%>
   <% end%>
 
 	</div><!-- div #content-->

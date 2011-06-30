@@ -1,6 +1,5 @@
 class HomeController < ApplicationController
   def index
-    p session[:access_token]
     @is_login = login?
     if @is_login
       shard_id = session[:access_token].params['edam_shard']
@@ -13,13 +12,13 @@ class HomeController < ApplicationController
 
         # Build an array of notebook names from the array of Notebook objects
         @notebooks = noteStore.listNotebooks(session[:access_token].token)
-        session[:notebooks] = @notebooks
+        session[:notebook_guids] = @notebooks.map { |e| e.guid }
       rescue Exception => e
         if e.instance_of? Evernote::EDAM::Error::EDAMUserException
           if e.errorCode == Evernote::EDAM::Error::EDAMErrorCode::AUTH_EXPIRED
             @last_error = "Authentication expired, please authrize again."  #TODO here
             session[:access_token] = nil
-            session[:notebooks] = nil
+            session[:notebook_guids] = nil
           else
             @last_error = e.message
           end
@@ -41,55 +40,17 @@ class HomeController < ApplicationController
     else
       begin
         shard_id = session[:access_token].params['edam_shard']   
-        # to hold the last note guid
-        last_note_guid = ""
-
-        # Construct the URL used to access the user's account
-        noteStoreUrl = NOTESTORE_URL_BASE + shard_id
-        noteStoreTransport = Thrift::HTTPClientTransport.new(noteStoreUrl)
-        noteStoreProtocol = Thrift::BinaryProtocol.new(noteStoreTransport)
-        noteStore = Evernote::EDAM::NoteStore::NoteStore::Client.new(noteStoreProtocol)
-
-        # Find notes from specified notebook
-        noteFilter = Evernote::EDAM::NoteStore::NoteFilter.new()
+        @images = []
 
         # if type is search all notebooks
         if (params[:guid] == "all")
-          @notes = Array.new
-          session[:notebooks].each do |notebook|
-            noteFilter.notebookGuid = notebook.guid
-            noteList = noteStore.findNotes(session[:access_token].token, noteFilter, 0, Evernote::EDAM::Limits::EDAM_USER_NOTES_MAX)
-            noteList.notes.each do |note|
-              unless note.resources.nil?
-                note.resources.each do |resource|
-                  if is_image(resource.mime)
-                    # if one note has more than one image         
-                    # use the local variable to check
-                    @notes << note if last_note_guid != note.guid
-                    last_note_guid = note.guid
-                  end
-                end
-              end
-            end
+          session[:notebook_guids].each do |notebook_guid|
+            image = fetch_image_from_notebook(shard_id, notebook_guid)
+            @images = @images + image unless image.blank?
           end
         else  # if search selected notebook
-          noteFilter.notebookGuid = params[:guid]
-          noteList = noteStore.findNotes(session[:access_token].token, noteFilter, 0, Evernote::EDAM::Limits::EDAM_USER_NOTES_MAX)
-          @notes = Array.new
-          noteList.notes.each do |note|
-            unless note.resources.nil?            
-              note.resources.each do |resource|
-                if is_image(resource.mime)  
-                  # if one note has more than one image         
-                  # use the local variable to check
-                  @notes << note if last_note_guid != note.guid 
-                  last_note_guid = note.guid
-                end
-              end
-            end
-          end
+          @images = fetch_image_from_notebook(shard_id, params[:guid])
         end
-        
         render :show
       rescue Evernote::EDAM::Error::EDAMUserException => e
         @last_error = e.errorCode
@@ -182,6 +143,30 @@ class HomeController < ApplicationController
   end
   
   private
+  
+  def fetch_image_from_notebook(shard, notebook_guid)
+    # Construct the URL used to access the user's account
+    noteStoreUrl = NOTESTORE_URL_BASE + shard
+    noteStoreTransport = Thrift::HTTPClientTransport.new(noteStoreUrl)
+    noteStoreProtocol = Thrift::BinaryProtocol.new(noteStoreTransport)
+    noteStore = Evernote::EDAM::NoteStore::NoteStore::Client.new(noteStoreProtocol)
+
+    # Find notes from specified notebook
+    noteFilter = Evernote::EDAM::NoteStore::NoteFilter.new()
+    noteFilter.notebookGuid = notebook_guid
+    noteList = noteStore.findNotes(session[:access_token].token, noteFilter, 0, Evernote::EDAM::Limits::EDAM_USER_NOTES_MAX)
+    
+    ret = []
+    noteList.notes.each do |note|
+      next if note.resources.nil?
+      note.resources.each do |resource|
+        if is_image(resource.mime)
+          ret << EvernoteImage.new(resource.guid, resource.mime, session[:access_token].params['edam_shard'], note.title)
+        end
+      end
+    end
+    ret unless ret.blank?
+  end
   
   # download images to server
   def download_to_server full_url, path, ext
