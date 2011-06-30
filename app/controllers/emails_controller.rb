@@ -16,7 +16,8 @@ class EmailsController < ApplicationController
         session[:image_urls] = nil
 
           # render :text => "Email was successfully sent"
-        format.html { redirect_to :controller => "home", :action => "index", :notice 'Email was successfully created.' }
+        # redirect_to :controller => "home", :action => "index", :notice 'Email was successfully created.'
+        redirect_to :controller => "home", :action => "index"        
       else
         format.html { render :action => "new" }
       end
