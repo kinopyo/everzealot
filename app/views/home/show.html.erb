@@ -6,7 +6,7 @@
 	<div id="content"> 
   <% @images.each do |image|%>
 			<div class="photo m" style="width:306px;height:306px">
-					<input id="i_<%=image.guid%>" type="checkbox" style="display:none" value="guid=<%= image.guid %>&mime=<%= image.mime %>" name="images[]" ></input>
+					<input id="i_<%=image.guid%>" type="checkbox" style="display:none" value="guid=<%= image.guid %>&mime=<%= image.mime %>" name="images[]" />
 					<a href="#" data-photo="i_<%=image.guid%>"><img src="<%=image.url%>" onload="this.style.opacity=1;" style="opacity: 1;<%=center_padding(image.width, image.height) %>"/></a>
 					<div class="meta">
 						Title: <%=image.title%>
@@ -20,7 +20,7 @@
 	<input id="select_all" type="button" value="Select all" name="all" />
   <input id="deselect_all" type="button" value="Deselect all" name="all" />
 
-	<input id="operation_input" type="hidden" name="operation" value="">
+	<input id="operation_input" type="hidden" name="operation" value="" />
 	<a href="#" id="a_download"><img src="/assets/download.png" />Download</a>
 	<a href="#" id="a_sendmail"><img src="/assets/mail.png" />Send Mail</a>
 	<a href="/"><img src="/assets/back.png" />Back</a>

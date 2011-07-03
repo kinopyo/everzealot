@@ -75,7 +75,8 @@ class HomeController < ApplicationController
       session[:request_token] = consumer.get_request_token(:oauth_callback => callback_url)
       redirect_to session[:request_token].authorize_url
     rescue Exception => e
-      @last_error = "Error obtaining temporary credentials: #{e.message}"
+      @last_error = "Error obtaining temporary credentials. Please try later."
+      p "Log::Error,  #{e.inspect}"
       render :error
     end
   end

@@ -5,9 +5,6 @@ need to add a before filter to each action, to check if session[:access_token] i
 
 View
 ====
-/show -> image padding too short..
-			-> after getting thumbnail from evernote, the small size image need to set to center
-home#show -> when drag the window to change the width,need to set the margin-right dynamically.
 Set the |select/deselct all| button icon.
 now the button panel looks like 'clickable', don't do that.
 
@@ -16,7 +13,8 @@ validation error css
 
 
 System
-======
+======                                                                   
+Feedback page, example:http://railscasts.com/feedback
 Unable to load thrift_native extension. Defaulting to pure Ruby libraries
 
 
