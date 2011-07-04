@@ -3,12 +3,20 @@ class UserMailer < ActionMailer::Base
   
   def send_image_mail(email, files)
     files.each do |file|
-      ret = file.match(/\/.*\/(.*)/)
-      file_name = ret[1]
-      attachments[file_name] = File.read(file)      
+      res = file.match(/\/.*\/(.*)/)
+      file_name = res[1]
+      if email["attach"] == true  # inline attachment
+        @inline = true
+        attachments.inline[file_name] = File.read(file)  
+      else
+        @inline = false
+        attachments[file_name] = File.read(file)      
+      end
     end
-    @message = email["message"]
-    
-    mail(:to => email["to_email"], :subject => email["subject"], :from => email["from_email"])
+
+    @email = email
+    options = {:to => email["to_email"], :subject => email["subject"], :from => email["from_email"]}
+    options[:cc] = email["from_email"] unless email["cc"].blank?  
+    mail(options)
   end
 end

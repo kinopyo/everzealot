@@ -1,0 +1,19 @@
+<h1>Everzealot</h1>
+<h2>Hi <%=@email["to_email"] %></h2>
+<p><%=@email["from_email"]%> sent you some images~</p>
+
+<div>
+	<%= @email["message"] %>
+</div>
+
+
+<br/>
+<% unless @inline.blank? %>
+	<% attachments.each do |attachment| %>
+		<%= image_tag attachment.url, :alt => "image"%>
+	<% end%>
+<% end %>
+
+<br/>
+You received this email because a EverZealot user wanted to share something with you.
+<%= link_to "EverZealot", "http://everzealot.com"%> is a site aim to make your life happier with Evernote.
