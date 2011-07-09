@@ -1,4 +1,6 @@
 Everzealot::Application.routes.draw do
+  resources :feedbacks
+
   resources :emails
 
   root :to => 'home#index'
