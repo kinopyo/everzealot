@@ -12,6 +12,7 @@ class HomeController < ApplicationController
 
         # Build an array of notebook names from the array of Notebook objects
         @notebooks = noteStore.listNotebooks(session[:access_token].token)
+        @notebooks.sort! { |a,b| a.name.downcase <=> b.name.downcase }
         session[:notebook_guids] = @notebooks.map { |e| e.guid }
       rescue Exception => e
         if e.instance_of? Evernote::EDAM::Error::EDAMUserException
