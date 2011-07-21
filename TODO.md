@@ -17,7 +17,6 @@ System
 Feedback page, example:http://railscasts.com/feedback
 Unable to load thrift_native extension. Defaulting to pure Ruby libraries
 Need pagination...
-Need to improve javascript performance of select single image
 Scan all notebooks are SO SLOW!!!
 Show images directly when user only get one notebook
 delay_job to :delete downloaded image and zip file, after say 10 min.

@@ -112,8 +112,9 @@ class HomeController < ApplicationController
       ext = param[2]
       
       shard = session[:access_token].params['edam_shard']
-      @image_urls << "https://sandbox.evernote.com/shard/#{shard}/res/#{guid}"
-      download_to_server "http://sandbox.evernote.com/shard/#{shard}/res/#{guid}", "#{guid}", "#{ext}"
+      # set www or sandbox in env config file
+      @image_urls << "https://www.evernote.com/shard/#{shard}/res/#{guid}"
+      download_to_server "http://www.evernote.com/shard/#{shard}/res/#{guid}", "#{guid}", "#{ext}"
     end
     
     case params[:operation]
