@@ -83,11 +83,11 @@ class HomeController < ApplicationController
   
   def complete
     if (params['oauth_verifier'].nil?)
-      @last_error = "Content owner did not authorize the temporary credentials"
+      Rails.logger.debug { " owner did not authorize the temporary credentials" }
+      @last_error = "Oops! You need to authorize this website first."
       render :error
     else
       oauth_verifier = params['oauth_verifier']
-
       session[:access_token] = session[:request_token].get_access_token(:oauth_verifier => oauth_verifier)
       redirect_to '/'
 
