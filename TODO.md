@@ -16,18 +16,39 @@ System
 ======                                                                   
 Feedback page, example:http://railscasts.com/feedback
 Unable to load thrift_native extension. Defaulting to pure Ruby libraries
+Need pagination...
+Scan all notebooks are SO SLOW!!!
+Show images directly when user only get one notebook
+delay_job to :delete downloaded image and zip file, after say 10 min.
+						 :send email later.
+Replace session store to other.
+Progress bar when scan notebooks.
+
 
 
 Issue
 =====
 some image resource down not contain width and height
-https://sandbox.evernote.com/shard/s1/res/d3d1bbdc-5742-4c82-a65d-7138be9a5f7a
-https://sandbox.evernote.com/shard/s1/thm/res/d3d1bbdc-5742-4c82-a65d-7138be9a5f7a
 can't get thumbnail! Report to evernote later
+some images not displayed (in notebook:002 FastSnap)
+layout crapped in some cases...
+Titles overlay when title has two lines
 
 
-== 悩み
+Future
+======
+Share with link, or make this notebook public.
+Multi-select notebooks?
+Hide some notebooks in this site?
+Show the image count in notebook index?
+Select image size/quality when sending email.
+Share this page?
+Edit(Zoom in/out, delete) image on the fly
+
+Trouble
+=======
 still don't have a good route setting
 
-delay_job to delete downloaded image and zip file, after say 10 min.
-But heroku worker cause 15$ per month... struggle.
+Similar site
+============
+http://instaport.me/

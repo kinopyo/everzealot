@@ -1,7 +1,7 @@
 <%= form_for(@email) do |f| %>
   <% if @email.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@email.errors.count, "error") %> prohibited this email from being saved:</h2>
+      <h2>Something went wrong. Please, check and correct the fields below.</h2>
 
       <ul>
       <% @email.errors.full_messages.each do |msg| %>
@@ -12,29 +12,30 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :from_email %><br />
-    <%= f.text_field :from_email %>
+    <%= f.label :from_email %><%= raw mark_required(@email, :from_email) %><br />
+    <%= f.text_field :from_email, :value => @from %>
   </div>
   <div class="field">
-    <%= f.label :to_email %><br />
+    <%= f.label :to_email %><%= raw mark_required(@email, :to_email) %><br />
     <%= f.text_field :to_email %>
   </div>
   <div class="field">
-    <%= f.label :subject %><br />
+    <%= f.label :subject %><%= raw mark_required(@email, :subject) %><br />
     <%= f.text_field :subject, :value => '[EverZealot]Shared images with you' %>
   </div>
   <div class="field">
-    <%= f.label :message %><br />
+    <%= f.label :message %><%= raw mark_required(@email, :message) %><br />
     <%= f.text_area :message, :size=>"40x5" %>
   </div>
   <div class="field">
-    <%= f.label :attach %><br />
-    <%= f.check_box :attach %>
+    <%= f.label :attach, "Attachment Type" %><%= raw mark_required(@email, :attach) %><br />
+    <%= f.radio_button :attach, 1, :checked => "checked" %><label for="email_attach_1"> as Inline Attachments</label>
+    <%= f.radio_button :attach, 0 %> <label for="email_attach_0"> as Attachments</label>
   </div>
-  <div class="field">
-    <%= f.label :cc %><br />
-    <%= f.text_field :cc %>
-  </div>
+	<div class="field">
+		<%= f.label :cc, "Also cc to me"%><%= raw mark_required(@email, :cc) %><br />
+    <%= f.check_box :cc %>
+	</div>
 
 	<h2>Selected Images</h2>
 	<% session[:image_urls].each do |file| %>
@@ -42,6 +43,6 @@
 	<% end %>
 	
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Send" %>
   </div>
 <% end %>

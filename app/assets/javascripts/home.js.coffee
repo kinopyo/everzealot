@@ -1,56 +1,63 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
-Everzealot =
-  foo: (number) -> alert number
-
 $ ->                           
 	# home#show
 	if $('div.photo').length > 0
-		$("#select_all").click (e) ->
-			$("#download").find(":checkbox").each ->
-				$(this).attr("checked", "checked")
-			$("#download").find("div.photo a").each ->
-				$(this).css("opacity", 0.4)
-				$(this).parent().css("background", "url('/assets/success.png') no-repeat scroll center center")
+		# select all button click event
+		$("#paginate").click (e) ->
+			switch e.target.id
+				# select all button
+				when "select_all" 
+					$("#download").find(":checkbox").each ->
+						$(this).attr("checked", "checked")
+					$("#download").find("div.photo a").each ->
+						$(this).css("opacity", 0.4)
+						$(this).parent().css("background", "url('/assets/success.png') no-repeat scroll center center")
+				# deselect all button
+				when "deselect_all" 
+					$("#download").find(":checkbox").each ->
+						$(this).removeAttr("checked")
+					$("#download").find("div.photo a").each ->
+						$(this).css("opacity", 1)
+						$(this).parent().css("background", "none")
+				# download button
+				when "a_download"
+					# set operation value, so that controller can handle
+					$("#operation_input").val("Download")
+					$("form").submit()
+				# send mail button
+				when "a_sendmail"
+					# set operation value, so that controller can handle
+					$("#operation_input").val("Send Mail")
+					$("form").submit()
 
-		$("#deselect_all").click (e) ->
-			$("#download").find(":checkbox").each ->
-				$(this).removeAttr("checked")
-			$("#download").find("div.photo a").each ->
-				$(this).css("opacity", 1)
-				$(this).parent().css("background", "none")
-
-		$("div.photo").find("a").click((e) ->
-			id = $(this).attr("data-photo")
-
-			# not checked
-			$chkbox = $("#" + id)
-			$img = $(this).find("img");
+		# bind to div#content, catch img tag
+		$("#content").click (e) ->
+			# if click an image
+			if e.target.nodeName == "IMG" && e.target.parentNode.nodeName == "A"
+				photo_id = e.target.parentNode.getAttribute("data-photo")
+			else
+			  return
+			
+			# cache jquery object
+			$chkbox = $("#" + photo_id)
+			$img = $(e.target);
+			$a = $(e.target.parentNode)
+			$div = $(e.target.parentNode.parentNode)
+			
+			# if image not selected
 			if $chkbox.attr("checked") == undefined
 				# set to check
 				$chkbox.attr("checked", "checked")
-				$(this).css("opacity", 0.4)
-				$(this).parent().css("background", "url('/assets/success.png') no-repeat scroll center center")
+				$a.css("opacity", 0.4)
+				$div.css("background", "url('/assets/success.png') no-repeat scroll center center")
 			else
 				$chkbox.removeAttr("checked")
-				$(this).css("opacity", 1)
-				$(this).parent().css("background", "none")
+				$a.css("opacity", 1)
+				$div.css("background", "none")
 			# prevent the url change caused by <a href="#"...>
 			e.preventDefault()
-		)
-
-		# download link click event
-		$("#a_download").click (e) ->
-			# set operation value
-			$("#operation_input").val("Download")
-			$("form").submit()
-
-		# send mail link click event
-		$("#a_sendmail").click (e) ->
-			# set operation value
-			$("#operation_input").val("Send Mail")
-			$("form").submit()
 					
 		resolutionMap = {
 		  thumbnail:150,

@@ -12,6 +12,7 @@ class HomeController < ApplicationController
 
         # Build an array of notebook names from the array of Notebook objects
         @notebooks = noteStore.listNotebooks(session[:access_token].token)
+        @notebooks.sort! { |a,b| a.name.downcase <=> b.name.downcase }
         session[:notebook_guids] = @notebooks.map { |e| e.guid }
       rescue Exception => e
         if e.instance_of? Evernote::EDAM::Error::EDAMUserException
@@ -43,13 +44,14 @@ class HomeController < ApplicationController
         @images = []
 
         # if type is search all notebooks
+
         if (params[:guid] == "all")
           session[:notebook_guids].each do |notebook_guid|
-            image = fetch_image_from_notebook(shard_id, notebook_guid)
+            image = fetch_image_from_notebook(shard_id, notebook_guid, params[:page])
             @images = @images + image unless image.blank?
           end
         else  # if search selected notebook
-          @images = fetch_image_from_notebook(shard_id, params[:guid])
+          @images = fetch_image_from_notebook(shard_id, params[:guid], params[:page])
         end
         render :show
       rescue Evernote::EDAM::Error::EDAMUserException => e
@@ -83,11 +85,11 @@ class HomeController < ApplicationController
   
   def complete
     if (params['oauth_verifier'].nil?)
-      @last_error = "Content owner did not authorize the temporary credentials"
+      Rails.logger.debug { " owner did not authorize the temporary credentials" }
+      @last_error = "Oops! You need to authorize this website first."
       render :error
     else
       oauth_verifier = params['oauth_verifier']
-
       session[:access_token] = session[:request_token].get_access_token(:oauth_verifier => oauth_verifier)
       redirect_to '/'
 
@@ -111,8 +113,9 @@ class HomeController < ApplicationController
       ext = param[2]
       
       shard = session[:access_token].params['edam_shard']
-      @image_urls << "https://sandbox.evernote.com/shard/#{shard}/res/#{guid}"
-      download_to_server "http://sandbox.evernote.com/shard/#{shard}/res/#{guid}", "#{guid}", "#{ext}"
+      # set www or sandbox in env config file
+      @image_urls << "https://www.evernote.com/shard/#{shard}/res/#{guid}"
+      download_to_server "http://www.evernote.com/shard/#{shard}/res/#{guid}", "#{guid}", "#{ext}"
     end
     
     case params[:operation]
@@ -148,7 +151,7 @@ class HomeController < ApplicationController
   
   private
   
-  def fetch_image_from_notebook(shard, notebook_guid)
+  def fetch_image_from_notebook(shard, notebook_guid, page = 1,limit = 30 )
     # Construct the URL used to access the user's account
     noteStoreUrl = NOTESTORE_URL_BASE + shard
     noteStoreTransport = Thrift::HTTPClientTransport.new(noteStoreUrl)
@@ -158,7 +161,16 @@ class HomeController < ApplicationController
     # Find notes from specified notebook
     noteFilter = Evernote::EDAM::NoteStore::NoteFilter.new()
     noteFilter.notebookGuid = notebook_guid
-    noteList = noteStore.findNotes(session[:access_token].token, noteFilter, 0, Evernote::EDAM::Limits::EDAM_USER_NOTES_MAX)
+
+    page = page.to_i
+    page = 1 if page < 1
+    offset = (page-1) * limit
+
+    # NoteList findNotes(string authenticationToken, NoteFilter filter, i32 offset,i32 maxNotes)
+    # even set the count to max(Evernote::EDAM::Limits::EDAM_USER_NOTES_MAX), it still just fetch 50 notes.
+    noteList = noteStore.findNotes(session[:access_token].token, noteFilter, offset, limit)
+p "noteList.totalNotes #{noteList.totalNotes}"
+    @has_next = page * limit < noteList.totalNotes ? true : false
     
     ret = []
     noteList.notes.each do |note|

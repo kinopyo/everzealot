@@ -17,6 +17,9 @@
 	</div><!-- div #content-->
 
 <div id="paginate" class="actions simpleblock ">
+	<% if @has_next %>
+		<a href="">Load more.. </a>
+	<% end %>
 	<input id="select_all" type="button" value="Select all" name="all" />
   <input id="deselect_all" type="button" value="Deselect all" name="all" />
 
