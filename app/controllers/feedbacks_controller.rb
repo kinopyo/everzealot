@@ -30,7 +30,8 @@ class FeedbacksController < ApplicationController
       # send to admin                                                   
       # TODO delay job
       UserMailer.send_feedback(params[:feedback]).deliver
-      redirect_to :root, notice: 'Thank you for your feedback!'
+      flash[:notice] = 'Thank you for your feedback!'
+      redirect_to :root 
     else
       render action: "new"
     end
