@@ -33,7 +33,7 @@ class FeedbacksController < ApplicationController
       flash[:notice] = 'Thank you for your feedback!'
       redirect_to :root 
     else
-      render action: "new"
+      render :new
     end
   end
   
