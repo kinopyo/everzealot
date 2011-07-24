@@ -5,7 +5,6 @@ class FeedbacksController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @feedbacks }
     end
   end
 
@@ -16,7 +15,6 @@ class FeedbacksController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @feedback }
     end
   end
 
