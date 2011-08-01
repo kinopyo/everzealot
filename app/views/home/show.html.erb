@@ -3,22 +3,13 @@
 	<%= link_to "Back to Top", "/"%>
 <% else%> 
 	<%= form_tag ({:action => "action"}), {:id => "download"} %>
-	<div id="content"> 
-  <% @images.each do |image|%>
-			<div class="photo m" style="width:306px;height:306px">
-					<input id="i_<%=image.guid%>" type="checkbox" style="display:none" value="guid=<%= image.guid %>&mime=<%= image.mime %>" name="images[]" />
-					<a href="#" data-photo="i_<%=image.guid%>"><img src="<%=image.url%>" onload="this.style.opacity=1;" style="opacity: 1;<%=center_padding(image.width, image.height) %>"/></a>
-					<div class="meta">
-						Title: <%=image.title%>
-					</div>
-			</div><!--div.photo.m-->
-  <% end%>
-
-	</div><!-- div #content-->
+	<div id="content">
+		<%= render "show"%> 
+	</div>
 
 <div id="paginate" class="actions simpleblock ">
 	<% if @has_next %>
-		<a href="">Load more.. </a>
+		<a id="loadmore" href="http://localhost:3000/show?guid=a04b5631-ce50-465b-9f01-ee89eb02eb08&page=2">Load more.. </a>
 	<% end %>
 	<input id="select_all" type="button" value="Select all" name="all" />
   <input id="deselect_all" type="button" value="Deselect all" name="all" />

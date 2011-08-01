@@ -31,6 +31,11 @@ $ ->
 					# set operation value, so that controller can handle
 					$("#operation_input").val("Send Mail")
 					$("form").submit()
+				when "loadmore"
+          alert e.target.href
+          $.get(e.target.href, null, null, "script")
+          e.preventDefault()
+					# $("div.pagination").html("Page is loading...");
 
 		# bind to div#content, catch img tag
 		$("#content").click (e) ->

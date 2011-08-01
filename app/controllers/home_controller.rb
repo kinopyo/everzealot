@@ -165,7 +165,6 @@ class HomeController < ApplicationController
     page = page.to_i
     page = 1 if page < 1
     offset = (page-1) * limit
-
     # NoteList findNotes(string authenticationToken, NoteFilter filter, i32 offset,i32 maxNotes)
     # even set the count to max(Evernote::EDAM::Limits::EDAM_USER_NOTES_MAX), it still just fetch 50 notes.
     noteList = noteStore.findNotes(session[:access_token].token, noteFilter, offset, limit)
