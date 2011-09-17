@@ -1,19 +1,27 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.0.rc1'
+gem 'rails', '3.1.0'
+
+gem 'sprockets'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
 group :test, :development do
 	gem 'sqlite3'
+  gem "timecop"
+  gem "fakeweb" 
+  gem "factory_girl_rails"
+  gem "capybara"
+  # gem "guard-railsec"
 end
 
 # add thin server
 gem 'thin'
 
 gem 'zipruby'
-gem 'mail'
+gem 'mail'   
+gem 'rspec-rails'
 
 #add the rubyracer for heroku
 group :production do 

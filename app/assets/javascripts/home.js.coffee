@@ -32,8 +32,7 @@ $ ->
 					$("#operation_input").val("Send Mail")
 					$("form").submit()
 				when "loadmore"
-          alert e.target.href
-          $.get(e.target.href, null, null, "script")
+          $.getScript(e.target.href)
           e.preventDefault()
 					# $("div.pagination").html("Page is loading...");
 

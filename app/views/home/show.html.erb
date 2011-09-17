@@ -1,7 +1,7 @@
 <% if @images.blank? %>
   <p>There is no image in this notebook.</p>
 	<%= link_to "Back to Top", "/"%>
-<% else%> 
+<% else%>                                                     
 	<%= form_tag ({:action => "action"}), {:id => "download"} %>
 	<div id="content">
 		<%= render "show"%> 
@@ -9,7 +9,7 @@
 
 <div id="paginate" class="actions simpleblock ">
 	<% if @has_next %>
-		<a id="loadmore" href="http://localhost:3000/show?guid=a04b5631-ce50-465b-9f01-ee89eb02eb08&page=2">Load more.. </a>
+		<a id="loadmore" href="http://localhost:3000/show?guid=<%=params[:guid] %>&page=<%= @next_page %>">Load more.. </a>
 	<% end %>
 	<input id="select_all" type="button" value="Select all" name="all" />
   <input id="deselect_all" type="button" value="Deselect all" name="all" />

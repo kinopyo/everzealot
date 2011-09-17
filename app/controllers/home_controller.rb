@@ -169,7 +169,11 @@ class HomeController < ApplicationController
     # even set the count to max(Evernote::EDAM::Limits::EDAM_USER_NOTES_MAX), it still just fetch 50 notes.
     noteList = noteStore.findNotes(session[:access_token].token, noteFilter, offset, limit)
 p "noteList.totalNotes #{noteList.totalNotes}"
+
+    # @total_pages = noteList.totalNotes / limit
+    # @current_page = page
     @has_next = page * limit < noteList.totalNotes ? true : false
+    @next_page = page + 1 if @has_next
     
     ret = []
     noteList.notes.each do |note|
