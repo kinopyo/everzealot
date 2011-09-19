@@ -18,17 +18,26 @@ class HomeController < ApplicationController
         session[:notebook_guids] = @notebooks.map { |e| e.guid }
       rescue Exception => e
         if e.instance_of? Evernote::EDAM::Error::EDAMUserException
-          if e.errorCode == Evernote::EDAM::Error::EDAMErrorCode::AUTH_EXPIRED
-            @last_error = "Authentication expired, please authrize again."  #TODO here
+          case e.errorCode
+          when Evernote::EDAM::Error::EDAMErrorCode::INTERNAL_ERROR
+            @last_error = "Internal error in Evernote site. Please try it later."
+            render :expire
+          when Evernote::EDAM::Error::EDAMErrorCode::AUTH_EXPIRED
+            @last_error = "Authentication expired, please authorize again."
             session[:access_token] = nil
             session[:notebook_guids] = nil
+            render :expire
+          when Evernote::EDAM::Error::EDAMErrorCode::PERMISSION_DENIED
+            @last_error = "Sorry you have to authorize this site to use your data."
+            render :error
           else
             @last_error = e.message
+            render :error
           end
         else
-          @last_error = e.message
+          @last_error = "Oops, something went wrong..."
+          render :error
         end
-        render :error
       end
     else  # if not log in
       render :welcome  
@@ -232,6 +241,7 @@ p "noteList.totalNotes #{noteList.totalNotes}"
   def check_session
     if session[:access_token].nil?
       # show expired view
+      @last_error = "Oops! Your session is expired."
       render :expire
     end
   end
