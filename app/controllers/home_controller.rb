@@ -1,4 +1,6 @@
 class HomeController < ApplicationController
+  before_filter :check_session, :except => [:index, :authorize, :complete]
+  
   def index
     @is_login = login?
     if @is_login
@@ -28,7 +30,7 @@ class HomeController < ApplicationController
         end
         render :error
       end
-    else
+    else  # if not log in
       render :welcome  
     end
     
@@ -224,6 +226,13 @@ p "noteList.totalNotes #{noteList.totalNotes}"
           ar.add_file(file)
           # File.delete(file) # delete file after added to zip
         end
+    end
+  end
+  
+  def check_session
+    if session[:access_token].nil?
+      # show expired view
+      render :expire
     end
   end
   
