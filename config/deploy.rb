@@ -1,5 +1,5 @@
 set :application, "everzealot"
-set :repository,  "git@heroku.com:everzealot.git"
+set :repository,  "git@github.com:kinopyo/everzealot.git"
 
 set :scm, :git
 
