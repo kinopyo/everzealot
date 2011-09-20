@@ -40,7 +40,7 @@ group :development do
 end  
 
 group :development do
-	gem 'mysql2', '< 0.3'
+	gem 'mysql2'
 end
 
 # To use debugger
