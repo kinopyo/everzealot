@@ -37,6 +37,10 @@ gem 'oauth'
 
 group :development do
 	gem 'capistrano'
+end  
+
+group :development do
+	gem 'mysql'
 end
 
 # To use debugger
