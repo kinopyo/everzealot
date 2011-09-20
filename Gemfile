@@ -17,7 +17,7 @@ group :test, :development do
 end
 
 # add thin server
-gem 'thin'
+gem 'thin'                            
 
 gem 'zipruby'
 gem 'mail'   
@@ -41,4 +41,7 @@ end
 
 # To use debugger
 # gem 'ruby-debug'
-
+                  
+# for passenger error
+gem 'execjs'
+gem 'therubyracer'
