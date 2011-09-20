@@ -23,12 +23,6 @@ gem 'zipruby'
 gem 'mail'   
 gem 'rspec-rails'
 
-#add the rubyracer for heroku
-group :production do 
-  gem 'pg'
-  gem 'therubyracer-heroku', '0.8.1.pre3'
-end
-
 # Asset template engines
 gem 'json'
 gem 'sass'
@@ -41,8 +35,9 @@ gem 'oauth'
 # Use unicorn as the web server
 # gem 'unicorn'
 
-# Deploy with Capistrano
-# gem 'capistrano'
+group :development do
+	gem 'capistrano'
+end
 
 # To use debugger
 # gem 'ruby-debug'
