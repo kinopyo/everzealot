@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.1.0'
 
-gem 'sprockets'
+# gem 'sprockets'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
@@ -17,17 +17,19 @@ group :test, :development do
 end
 
 # add thin server
-gem 'thin'                            
+# gem 'thin'                            
 
 gem 'zipruby'
 gem 'mail'   
 gem 'rspec-rails'
 
-# Asset template engines
-gem 'json'
-gem 'sass'
-gem 'coffee-script'
-gem 'uglifier'
+# Gems used only for assets and not required
+# in production environments by default.
+group :assets do
+  gem 'sass-rails', "  ~> 3.1.0"
+  gem 'coffee-rails', "~> 3.1.0"
+  gem 'uglifier'
+end
 
 gem 'jquery-rails'
 gem 'oauth'
@@ -37,15 +39,12 @@ gem 'oauth'
 
 group :development do
 	gem 'capistrano'
+	gem 'mysql2'
 end  
 
-group :development do
-	gem 'mysql2'
-end
-
 # To use debugger
-# gem 'ruby-debug'
+# gem 'ruby-debug19', :require => 'ruby-debug'
                   
 # for passenger error
-gem 'execjs'
-gem 'therubyracer'
+# gem 'execjs'
+# gem 'therubyracer'
