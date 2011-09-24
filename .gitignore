@@ -6,4 +6,3 @@ tmp/
 .DS_Store
 npm/
 .rvmrc
-config/deploy.rb

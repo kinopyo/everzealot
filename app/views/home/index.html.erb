@@ -1,10 +1,9 @@
 <div id="content">
 	<%= render "shared/notice" %>
-	
 	<h1>Select the notebooks you want to scan</h1>
 	<ul class="notebooks">    
 	<% @notebooks.each do |notebook| %>
-	      <li><%= image_tag "notebook.png", :class => "notebook" %><a href="/show?guid=<%=notebook.guid %>" >!!!<%= notebook.name %></a></li>
+	      <li><%= image_tag "notebook.png", :class => "notebook" %><a href="/show?guid=<%=notebook.guid %>" ><%= notebook.name %></a></li>
 	      <br>
 
 	<% end %>
