@@ -1,4 +1,6 @@
 class HomeController < ApplicationController
+  include Download
+  include FileSystem::FileZip
   before_filter :check_session, :except => [:index, :authorize, :complete]
 
   def index
@@ -138,7 +140,7 @@ class HomeController < ApplicationController
     when 'Download'
       image_directory = "#{Rails.root}/tmp/images/#{session[:access_token].params['edam_userId']}"
       zip_file_name = "evernote_images_#{session[:access_token].params['edam_userId']}.zip"
-      zip_image image_directory + "/" + zip_file_name
+      compress_files_to_zip image_directory + "/" + zip_file_name, @selected_file
       # make this zip file download
       send_file image_directory + "/" + zip_file_name, :type => "application/zip"
 
@@ -195,46 +197,6 @@ class HomeController < ApplicationController
       end
     end
     ret unless ret.blank?
-  end
-
-  # download images to server
-  def download_to_server full_url, path, ext
-    require 'open-uri'
-    image_directory = "#{Rails.root}/tmp/images"
-    user_directory = image_directory + "/#{session[:access_token].params['edam_userId']}"
-    unless File.directory? image_directory
-      Dir::mkdir( image_directory ) # 第二パラメータ省略時のパーミッションは0777
-    end
-
-    unless File.directory? user_directory
-      Dir::mkdir( user_directory ) # 第二パラメータ省略時のパーミッションは0777
-    end
-
-    file_name = user_directory + "/" + path + '.' + ext
-
-    @selected_file << file_name
-    unless File.exists?(file_name)
-      File.open(file_name, 'wb') do |output|
-        # Download image
-        # TODO: handle if session access token is nil
-        open(full_url + "?auth=#{session[:access_token].token}") do |input|
-          output << input.read
-        end
-      end
-    end
-  end
-
-  def zip_image filename
-    # https://bitbucket.org/winebarrel/zip-ruby/wiki/Home
-
-    File.delete(filename) if File.exists?(filename)
-
-    Zip::Archive.open(filename, Zip::CREATE) do |ar|
-        @selected_file.each do |file|
-          ar.add_file(file)
-          # File.delete(file) # delete file after added to zip
-        end
-    end
   end
 
   def check_session
