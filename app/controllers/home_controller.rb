@@ -16,8 +16,13 @@ class HomeController < ApplicationController
 
         # Build an array of notebook names from the array of Notebook objects
         @notebooks = noteStore.listNotebooks(session[:access_token].token)
-        @notebooks.sort! { |a,b| a.name.downcase <=> b.name.downcase }
-        session[:notebook_guids] = @notebooks.map { |e| e.guid }
+
+        if @notebooks.size == 1
+          redirect_to :controller => 'home', :action => 'show', :guid => @notebooks[0].guid
+        else
+          @notebooks.sort! { |a,b| a.name.downcase <=> b.name.downcase }
+          session[:notebook_guids] = @notebooks.map { |e| e.guid }
+        end
       rescue Exception => e
         if e.instance_of? Evernote::EDAM::Error::EDAMUserException
           case e.errorCode
@@ -49,8 +54,9 @@ class HomeController < ApplicationController
 
   def show
     if params[:guid].nil?
+      # FIXME
       @last_error = "parameter error"
-      erb :error
+      render :error
     else
       begin
         shard_id = session[:access_token].params['edam_shard']
