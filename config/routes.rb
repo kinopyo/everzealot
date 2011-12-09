@@ -4,19 +4,20 @@ Everzealot::Application.routes.draw do
   resources :emails
 
   root :to => 'home#index'
-  
+
   get "home/index"
   get "home/authorize"
   get "home/show"
   get "home/complete"
-  get "home/reset"
   get "home/show"
   get "home/mail"
   post "home/action"
   post "home/send_mail"
-  
-  match "/authorize" => "home#authorize"
-  match "/complete" => "home#complete"
+
+  match "/authorize" => "session#authorize"
+  match "/callback" => "session#callback"
+  match "/reset" => "session#reset"
+
   match "/show" => "home#show"
   match "/action" => "home#action"
 
