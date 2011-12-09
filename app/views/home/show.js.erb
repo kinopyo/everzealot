@@ -1,1 +1,6 @@
 $("#content").append("<%= escape_javascript(render("show")) %>");
+<% if @has_next %>
+  $("#loadmore").attr("href", "/show?guid=<%=params[:guid] %>&page=<%= @next_page %>");
+<% else %>
+  $("#loadmore").hide();
+<% end %>

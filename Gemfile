@@ -10,17 +10,17 @@ gem 'rails', '3.1.0'
 group :test, :development do
 	gem 'sqlite3'
   gem "timecop"
-  gem "fakeweb" 
+  gem "fakeweb"
   gem "factory_girl_rails"
   gem "capybara"
   # gem "guard-railsec"
 end
 
 # add thin server
-# gem 'thin'                            
+# gem 'thin'
 
 gem 'zipruby'
-gem 'mail'   
+gem 'mail'
 gem 'rspec-rails'
 
 # Gems used only for assets and not required
@@ -42,11 +42,11 @@ gem 'oauth'
 group :development do
 	gem 'capistrano'
 	gem 'mysql2'
-end  
+end
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
-                  
+
 # for passenger error
 # gem 'execjs'
 # gem 'therubyracer'

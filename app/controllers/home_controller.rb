@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
   before_filter :check_session, :except => [:index, :authorize, :complete]
-  
+
   def index
     @is_login = login?
     if @is_login
@@ -40,9 +40,9 @@ class HomeController < ApplicationController
         end
       end
     else  # if not log in
-      render :welcome  
+      render :welcome
     end
-    
+
   end
 
   def show
@@ -51,11 +51,11 @@ class HomeController < ApplicationController
       erb :error
     else
       begin
-        shard_id = session[:access_token].params['edam_shard']   
+        shard_id = session[:access_token].params['edam_shard']
         @images = []
 
         # if type is search all notebooks
-
+        @guid = params[:guid]
         if (params[:guid] == "all")
           session[:notebook_guids].each do |notebook_guid|
             image = fetch_image_from_notebook(shard_id, notebook_guid, params[:page])
@@ -93,7 +93,7 @@ class HomeController < ApplicationController
       render :error
     end
   end
-  
+
   def complete
     if (params['oauth_verifier'].nil?)
       Rails.logger.debug { " owner did not authorize the temporary credentials" }
@@ -106,15 +106,15 @@ class HomeController < ApplicationController
 
     end
   end
-  
+
   #actions
   def action
     if params[:images].nil?
       @last_error = "please select images"
-      render :error 
+      render :error
       return
     end
-    
+
     @selected_file = Array.new
     @image_urls = Array.new
     params[:images].each do |image|
@@ -122,13 +122,13 @@ class HomeController < ApplicationController
       param = image.match(/guid=(.*)&mime=image\/(.*)/)
       guid = param[1]
       ext = param[2]
-      
+
       shard = session[:access_token].params['edam_shard']
       # set www or sandbox in env config file
       @image_urls << "https://www.evernote.com/shard/#{shard}/res/#{guid}"
       download_to_server "http://www.evernote.com/shard/#{shard}/res/#{guid}", "#{guid}", "#{ext}"
     end
-    
+
     case params[:operation]
     when 'Send Mail'
       session[:files] = @selected_file  # TODO change to a good way to keep this info
@@ -148,20 +148,20 @@ class HomeController < ApplicationController
     end
 
   end
-  
+
   def send_mail
-    UserMailer.send_image_mail(params[:to], params[:from], params[:subject], 
+    UserMailer.send_image_mail(params[:to], params[:from], params[:subject],
       params[:message], session[:files], params[:attach]).deliver
     render :text => "mail sent"
   end
-  
+
   def reset
     session[:access_token] = nil
     redirect_to :root
   end
-  
+
   private
-  
+
   def fetch_image_from_notebook(shard, notebook_guid, page = 1,limit = 30 )
     # Construct the URL used to access the user's account
     noteStoreUrl = NOTESTORE_URL_BASE + shard
@@ -179,13 +179,12 @@ class HomeController < ApplicationController
     # NoteList findNotes(string authenticationToken, NoteFilter filter, i32 offset,i32 maxNotes)
     # even set the count to max(Evernote::EDAM::Limits::EDAM_USER_NOTES_MAX), it still just fetch 50 notes.
     noteList = noteStore.findNotes(session[:access_token].token, noteFilter, offset, limit)
-p "noteList.totalNotes #{noteList.totalNotes}"
 
     # @total_pages = noteList.totalNotes / limit
     # @current_page = page
     @has_next = page * limit < noteList.totalNotes ? true : false
     @next_page = page + 1 if @has_next
-    
+
     ret = []
     noteList.notes.each do |note|
       next if note.resources.nil?
@@ -197,20 +196,20 @@ p "noteList.totalNotes #{noteList.totalNotes}"
     end
     ret unless ret.blank?
   end
-  
+
   # download images to server
   def download_to_server full_url, path, ext
     require 'open-uri'
     image_directory = "#{Rails.root}/tmp/images"
     user_directory = image_directory + "/#{session[:access_token].params['edam_userId']}"
-    unless File.directory? image_directory 
+    unless File.directory? image_directory
       Dir::mkdir( image_directory ) # 第二パラメータ省略時のパーミッションは0777
     end
-    
-    unless File.directory? user_directory 
+
+    unless File.directory? user_directory
       Dir::mkdir( user_directory ) # 第二パラメータ省略時のパーミッションは0777
     end
-    
+
     file_name = user_directory + "/" + path + '.' + ext
 
     @selected_file << file_name
@@ -224,10 +223,10 @@ p "noteList.totalNotes #{noteList.totalNotes}"
       end
     end
   end
-  
+
   def zip_image filename
     # https://bitbucket.org/winebarrel/zip-ruby/wiki/Home
-    
+
     File.delete(filename) if File.exists?(filename)
 
     Zip::Archive.open(filename, Zip::CREATE) do |ar|
@@ -237,7 +236,7 @@ p "noteList.totalNotes #{noteList.totalNotes}"
         end
     end
   end
-  
+
   def check_session
     if session[:access_token].nil?
       # show expired view
@@ -245,5 +244,5 @@ p "noteList.totalNotes #{noteList.totalNotes}"
       render :expire
     end
   end
-  
+
 end

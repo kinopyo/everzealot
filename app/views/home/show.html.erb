@@ -1,22 +1,22 @@
 <% if @images.blank? %>
   <p>There is no image in this notebook.</p>
-	<%= link_to "Back to Top", "/"%>
-<% else%>                                                     
-	<%= form_tag ({:action => "action"}), {:id => "download"} do %>
- 	  <div id="content">
-			<%= render "show"%> 
-		</div>
+  <%= link_to "Back to Top", "/"%>
+<% else%>
+  <%= form_tag :action => "action", :id => "download" do %>
+    <div id="content">
+      <%= render "show"%>
+    </div>
 
-		<div id="paginate" class="actions simpleblock ">
-			<% if @has_next %>
-				<a id="loadmore" href="/show?guid=<%=params[:guid] %>&page=<%= @next_page %>">Load more.. </a>
-			<% end %>
-			<input id="select_all" type="button" value="Select all" name="all" />
-		  <input id="deselect_all" type="button" value="Deselect all" name="all" />
+    <div id="paginate" class="actions simpleblock ">
+      <% if @has_next %>
+        <a id="loadmore" href="/show?guid=<%=params[:guid] %>&page=<%= @next_page %>">Load more.. </a>
+      <% end %>
+      <input id="select_all" type="button" value="Select all" name="all" />
+      <input id="deselect_all" type="button" value="Deselect all" name="all" />
 
-			<%= hidden_field_tag :operation, '', :id => "operation_input"%>
-			<%= link_to image_tag("download.png") + "Download", "#", :id => "a_download"%>
-			<%= link_to image_tag("mail.png") + "Send Mail", "#", :id => "a_sendmail"%>	
-		</div>
-	<% end %>
+      <%= hidden_field_tag :operation, '', :id => "operation_input"%>
+      <%= link_to image_tag("download.png") + "Download", "#", :id => "a_download"%>
+      <%= link_to image_tag("mail.png") + "Send Mail", "#", :id => "a_sendmail"%>
+    </div>
+  <% end %>
 <% end %>
