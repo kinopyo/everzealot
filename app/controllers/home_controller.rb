@@ -1,51 +1,45 @@
 class HomeController < ApplicationController
   include Download
   include FileSystem::FileZip
+  include EvernoteApi
   before_filter :check_session, :except => [:index, :authorize, :complete]
 
   def index
     @is_login = login?
     if @is_login
       shard_id = session[:access_token].params['edam_shard']
-      begin
-        # Construct the URL used to access the user's account
-        noteStoreUrl = NOTESTORE_URL_BASE + shard_id
-        noteStoreTransport = Thrift::HTTPClientTransport.new(noteStoreUrl)
-        noteStoreProtocol = Thrift::BinaryProtocol.new(noteStoreTransport)
-        noteStore = Evernote::EDAM::NoteStore::NoteStore::Client.new(noteStoreProtocol)
-
-        # Build an array of notebook names from the array of Notebook objects
+      # begin
+        noteStore = Notestore.new(shard_id)
         @notebooks = noteStore.listNotebooks(session[:access_token].token)
-
         if @notebooks.size == 1
           redirect_to :controller => 'home', :action => 'show', :guid => @notebooks[0].guid
         else
           @notebooks.sort! { |a,b| a.name.downcase <=> b.name.downcase }
           session[:notebook_guids] = @notebooks.map { |e| e.guid }
         end
-      rescue Exception => e
-        if e.instance_of? Evernote::EDAM::Error::EDAMUserException
-          case e.errorCode
-          when Evernote::EDAM::Error::EDAMErrorCode::INTERNAL_ERROR
-            @last_error = "Internal error in Evernote site. Please try it later."
-            render :expire
-          when Evernote::EDAM::Error::EDAMErrorCode::AUTH_EXPIRED
-            @last_error = "Authentication expired, please authorize again."
-            session[:access_token] = nil
-            session[:notebook_guids] = nil
-            render :expire
-          when Evernote::EDAM::Error::EDAMErrorCode::PERMISSION_DENIED
-            @last_error = "Sorry you have to authorize this site to use your data."
-            render :error
-          else
-            @last_error = e.message
-            render :error
-          end
-        else
-          @last_error = "Oops, something went wrong..."
-          render :error
-        end
-      end
+      # rescue Exception => e
+      #   if e.instance_of? Evernote::EDAM::Error::EDAMUserException
+      #     case e.errorCode
+      #     when Evernote::EDAM::Error::EDAMErrorCode::INTERNAL_ERROR
+      #       @last_error = "Internal error in Evernote site. Please try it later."
+      #       render :expire
+      #     when Evernote::EDAM::Error::EDAMErrorCode::AUTH_EXPIRED
+      #       @last_error = "Authentication expired, please authorize again."
+      #       session[:access_token] = nil
+      #       session[:notebook_guids] = nil
+      #       render :expire
+      #     when Evernote::EDAM::Error::EDAMErrorCode::PERMISSION_DENIED
+      #       @last_error = "Sorry you have to authorize this site to use your data."
+      #       render :error
+      #     else
+      #       @last_error = e.message
+      #       render :error
+      #     end
+      #   else
+      #     @last_error = "Oops, something went wrong..."
+      #     render :error
+      #   end
+      # end
     else  # if not log in
       render :welcome
     end
@@ -135,12 +129,6 @@ class HomeController < ApplicationController
   private
 
   def fetch_image_from_notebook(shard, notebook_guid, page = 1,limit = 30 )
-    # Construct the URL used to access the user's account
-    noteStoreUrl = NOTESTORE_URL_BASE + shard
-    noteStoreTransport = Thrift::HTTPClientTransport.new(noteStoreUrl)
-    noteStoreProtocol = Thrift::BinaryProtocol.new(noteStoreTransport)
-    noteStore = Evernote::EDAM::NoteStore::NoteStore::Client.new(noteStoreProtocol)
-
     # Find notes from specified notebook
     noteFilter = Evernote::EDAM::NoteStore::NoteFilter.new()
     noteFilter.notebookGuid = notebook_guid
@@ -148,16 +136,18 @@ class HomeController < ApplicationController
     page = page.to_i
     page = 1 if page < 1
     offset = (page-1) * limit
+
     # NoteList findNotes(string authenticationToken, NoteFilter filter, i32 offset,i32 maxNotes)
     # even set the count to max(Evernote::EDAM::Limits::EDAM_USER_NOTES_MAX), it still just fetch 50 notes.
+    noteStore = Notestore.new(shard)
     noteList = noteStore.findNotes(session[:access_token].token, noteFilter, offset, limit)
 
-    # @total_pages = noteList.totalNotes / limit
-    # @current_page = page
     @has_next = page * limit < noteList.totalNotes ? true : false
     @next_page = page + 1 if @has_next
 
     ret = []
+    noteList.notes.select { |note| !note.resources.nil? }
+
     noteList.notes.each do |note|
       next if note.resources.nil?
       note.resources.each do |resource|
@@ -166,6 +156,7 @@ class HomeController < ApplicationController
         end
       end
     end
+
     ret unless ret.blank?
   end
 
