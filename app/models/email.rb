@@ -8,4 +8,8 @@ class Email < ActiveRecord::Base
   validates :subject, :presence => true
   validates :message, :length => {:maximum => 500}
                         
+
+  def foo
+    [1,2,3].map{|a|a}
+  end
 end
